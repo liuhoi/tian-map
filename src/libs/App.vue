@@ -1,0 +1,31 @@
+<template>
+  <div>
+   {{init}}
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'app',
+    data () {
+      return {
+        init: false,
+        isIndex: true
+      }
+    },
+    mounted () {
+      //  这里模拟数据请求
+      setTimeout(() => {
+        this.init = true
+      }, 250)
+    },
+    components: {
+     
+    }
+  }
+</script>
+
+<style scoped>
+  
+
+</style>

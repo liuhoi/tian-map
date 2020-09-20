@@ -21,7 +21,13 @@ const modules = {
     }),
     new CleanWebpackPlugin(),
     new VueLooaderPlugin()
-  ]
+  ],
+  resolve:{
+    alias:{
+      '@':resolve('src'),
+      '@docs':resolve('docs'),
+    }
+  }
 }
 
 module.exports = modules

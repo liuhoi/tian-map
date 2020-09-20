@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config build/webpack.dev.js"
+    "dev": "webpack-dev-server --config build/webpack.dev.js",
+    "start": "node build/webpack.dev.js"
   },
   "keywords": [],
   "author": "",
@@ -29,5 +30,9 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.1.4"
+  },
+  "dependencies": {
+    "vant": "^2.10.7",
+    "vue": "^2.6.12"
   }
 }
