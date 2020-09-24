@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config build/webpack.dev.js",
-    "start": "node build/webpack.dev.js"
+    "dev": "map-cli dev",
+    "build": "map-cli build"
   },
   "keywords": [],
   "author": "",

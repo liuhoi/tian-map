@@ -1,0 +1,1 @@
+exports.GREEN = '#07c160';
