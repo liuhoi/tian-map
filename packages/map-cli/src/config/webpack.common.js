@@ -5,9 +5,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const VueLooaderPlugin = require('vue-loader/lib/plugin')
 
-const appRoot = fs.realpathSync(process.cwd())
+const {CLIROOT,ROOT} = require('../common/constant')
 
-const resolve = (url) => path.resolve(appRoot, url)
+const resolve = (url) => path.resolve(CLIROOT, url)
 
 const modules = {
   module: {
@@ -19,7 +19,7 @@ const modules = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 32423,
-      template:resolve('docs/index.html')
+      template:resolve('site/index.html')
     }),
     new CleanWebpackPlugin(),
     new VueLooaderPlugin()

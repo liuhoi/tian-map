@@ -46,7 +46,7 @@ const watch = async function(){
 }
 
 const build = async function(){
-  return Promise((resolve,reject) => {
+  return new Promise((resolve,reject) => {
     const config = getProdConfig;
 
     webpack(config,(err,stats) => {
