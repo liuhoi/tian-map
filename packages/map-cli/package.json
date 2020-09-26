@@ -28,6 +28,7 @@
     "lodash": "^4.17.20",
     "ora": "^5.1.0",
     "portfinder": "^1.0.28",
+    "vue-loader": "^15.9.3",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
