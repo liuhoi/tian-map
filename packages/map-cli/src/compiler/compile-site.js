@@ -23,7 +23,10 @@ const logServerInfo = function(port){
 }
 
 const runDevServer = function(port,config){
-    const server = new WebpackDevServer(webpack(config),config.devServer)
+    const server = new WebpackDevServer(webpack(config),{
+      ...config.devServer,
+      port
+    })
 
     const host = get(config.devServer,'host','localhost')
     server.listen(port,host,(err) => {
@@ -43,7 +46,17 @@ const watch = async function(){
 }
 
 const build = async function(){
-  log('build')
+  return Promise((resolve,reject) => {
+    const config = getProdConfig;
+
+    webpack(config,(err,stats) => {
+      if (err || stats.hasErrors()) {
+        reject();
+      } else {
+        resolve();
+      }
+    })
+  })
 }
 
 exports.compileSite = async function(production = false){
