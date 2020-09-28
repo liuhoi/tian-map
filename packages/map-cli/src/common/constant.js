@@ -4,7 +4,7 @@ const {pathExistsSync} = require('fs-extra')
 function findRootDir(dir) {
 
   if (dir === rootDir || dir === '/') {
-    return '/';
+    return CWD;
   }
 
   if (pathExistsSync(join(dir, 'vant.config.js'))) {
