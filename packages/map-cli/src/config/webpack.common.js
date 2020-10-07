@@ -5,9 +5,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const VueLooaderPlugin = require('vue-loader/lib/plugin')
 
-const {CLIROOT,ROOT} = require('../common/constant')
+const {ROOT} = require('../common/constant')
 
-const resolve = (url) => path.resolve(CLIROOT, url)
+const resolve = (url) => path.resolve(ROOT, url)
 
 const modules = {
   module: {
