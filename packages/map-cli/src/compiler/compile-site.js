@@ -1,7 +1,6 @@
 const chalk = require('chalk');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server')
-const {merge} = require('webpack-merge')
 const {getPort} = require('portfinder')
 const {ip} = require('address')
 const {get} = require('lodash')
@@ -35,7 +34,7 @@ const runDevServer = function(port,config){
 }
 
 const watch = async function(){
-  const config = getDevConfig
+  const config = getDevConfig()
   getPort({
     port:config.devServer.port || 3000
   },(err,port)=>{

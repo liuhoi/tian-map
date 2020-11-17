@@ -11,9 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "map-cli": "file:D:/nodejs/node_global/node_modules/map-cli"
-  },
+  "devDependencies": {},
   "dependencies": {
     "vue": "^2.6.12"
   }

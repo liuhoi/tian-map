@@ -16,31 +16,31 @@ const modules = {
         test: /\.vue$/,
         use: ['vue-loader']
       },
-      {
-        test:/\.js$/,
-        exclude:/node_modules|bower_components/,
-        use:[{
-          loader:'babel-loader',
-          options:{
-            presets:[
-              [
-                '@babel/preset-env',
-                {
-                  corejs:3,
-                }
-              ]
-            ],
-            plugins:[
-              [
-                '@babel/plugin-transform-runtime',
-                {
-                  corejs:3
-                }
-              ]
-            ]
-          }
-        }]
-      }
+      // {
+      //   test:/\.js$/,
+      //   exclude:/node_modules|bower_components/,
+      //   use:[{
+      //     loader:'babel-loader',
+      //     options:{
+      //       presets:[
+      //         [
+      //           '@babel/preset-env',
+      //           {
+      //             corejs:3,
+      //           }
+      //         ]
+      //       ],
+      //       plugins:[
+      //         [
+      //           '@babel/plugin-transform-runtime',
+      //           {
+      //             corejs:3
+      //           }
+      //         ]
+      //       ]
+      //     }
+      //   }]
+      // }
     ],
   },
   plugins: [
