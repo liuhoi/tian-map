@@ -9,3 +9,5 @@ new Vue({
   el: '#app',
   render: h => h(App)
 })
+console.log(213)
+  new Promise(()=>{})

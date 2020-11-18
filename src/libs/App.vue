@@ -18,6 +18,10 @@
       setTimeout(() => {
         this.init = true
       }, 250)
+      new Promise(()=>{
+
+      })
+      console.log(23423)
     },
     components: {
      

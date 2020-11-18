@@ -3,7 +3,7 @@ const fs =require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const VueLooaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin  = require('vue-loader')
 
 const {CLIROOT} = require('../common/constant')
 
@@ -16,31 +16,29 @@ const modules = {
         test: /\.vue$/,
         use: ['vue-loader']
       },
-      // {
-      //   test:/\.js$/,
-      //   exclude:/node_modules|bower_components/,
-      //   use:[{
-      //     loader:'babel-loader',
-      //     options:{
-      //       presets:[
-      //         [
-      //           '@babel/preset-env',
-      //           {
-      //             corejs:3,
-      //           }
-      //         ]
-      //       ],
-      //       plugins:[
-      //         [
-      //           '@babel/plugin-transform-runtime',
-      //           {
-      //             corejs:3
-      //           }
-      //         ]
-      //       ]
-      //     }
-      //   }]
-      // }
+      {
+        test:/\.js$/,
+        exclude:/node_modules|bower_components/,
+        use:[{
+          loader:'babel-loader',
+          options:{
+            presets:[
+              [
+                '@babel/preset-env',
+              ]
+            ],
+            plugins:[
+              [
+                '@babel/plugin-transform-runtime',
+                {
+                  corejs:3
+                }
+              ]
+            ]
+          }
+        }]
+      },
+      
     ],
   },
   plugins: [
@@ -49,9 +47,10 @@ const modules = {
       template:resolve('site/index.html')
     }),
     new CleanWebpackPlugin(),
-    new VueLooaderPlugin()
+    new VueLoaderPlugin()
   ],
   resolve:{
+    extensions:['.js', '.vue', '.json'],
     alias:{
       '@':resolve('src'),
       '@docs':resolve('docs'),
