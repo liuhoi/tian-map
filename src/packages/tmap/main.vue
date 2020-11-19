@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Emitter from './mixins/emitter'
-import CONSTANTS from './config/constant'
-import loadTmapApi from './libs/initializer'
-import promiseLazyFactory from './libs/promise-lazy'
+import Emitter from '@/libs/mixins/emitter'
+import CONSTANTS from '@/libs/config/constant'
+import loadTmapApi from '@/libs/utils/initializer'
+import promiseLazyFactory from '@/libs/utils/promise-lazy'
 
-import config from '@core/config/map';
+import config from '@/libs/config/map';
 
 const promiseLazyCreator  = promiseLazyFactory(loadTmapApi)
 const tmapApiPromiseLazy = promiseLazyCreator({
@@ -115,7 +115,7 @@ export default {
   // /deep/ * {
   //   box-sizing: content-box;
   // }
-  /deep/ .tdt-bottom.tdt-left{
+  ::v-deep .tdt-bottom.tdt-left{
     display: none;
   }
   .map-container{

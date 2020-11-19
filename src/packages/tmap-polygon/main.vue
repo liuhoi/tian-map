@@ -1,14 +1,14 @@
 <script>
 import Vue from 'vue';
-import CONSTANTS from './config/constant'
+import CONSTANTS from '@/libs/config/constant'
 
 export default {
-  name: "tmapCardinalArrow",
+  name: "tmapPolygon",
   inject: {
     $tmapPromiseLazy: { default: '' }
   },
   props: {
-    points: {
+    polygon: {
       type:Array,
       default:()=>[]
     },
@@ -23,23 +23,23 @@ export default {
     }
   },
   watch:{
-    points:{
+    polygon:{
       deep:true,
       handler(val){
         if(val.length){
           if(this.$tmap && this.$mapApi){
-            this.addPoints();
+            this.addPolygon();
           }else{
             this.$tmapPromiseLazy.then(({map,mapApi}) => {
               this.$tmap = map;
               this.$mapApi = mapApi;
-              this.addPoints();
+              this.addPolygon();
             })
           }
-
-
+          
+          
         }
-
+        
       }
     }
   },
@@ -58,7 +58,7 @@ export default {
     }
   },
   created(){
-
+    
   },
   render(){
     return null
@@ -69,22 +69,21 @@ export default {
       this.$mapApi = mapApi;
     })
   },
-
+  
   destroyed() {
-    this.removeaddPoints();
+    this.removeaddPolygon();
   },
   methods:{
     initComponent() {
-      this.removeaddPoints();
-      let {$tmap,$mapApi,points} = this;
-      this.$tmapComponent = new $mapApi.CardinalCurveArrow(points,this.mergeConfig);
-      console.log(this.$tmapComponent)
+      this.removeaddPolygon();
+      let {$tmap,$mapApi,polygon} = this;
+      this.$tmapComponent = new $mapApi.Polygon(polygon,this.mergeConfig);
       $tmap.addOverLay(this.$tmapComponent);
     },
-    addPoints(){
+    addPolygon(){
       this.initComponent();
     },
-    removeaddPoints(){
+    removeaddPolygon(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
       this.$tmapComponent = null;
     },

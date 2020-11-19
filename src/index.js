@@ -1,13 +1,38 @@
-import Vue from 'vue'
+import tmap from '@/packages/tmap';
+import tmapCardinalArrow from '@/packages/tmap-cardinal-arrow';
+import tmapInfoWindow from '@/packages/tmap-info-window';
+import tmapMarker from '@/packages/tmap-marker';
+import tmapPolygon from '@/packages/tmap-polygon';
+import tmapPolyline from '@/packages/tmap-polyline';
 
-import App from './libs/App.vue'
+const components = [
+  tmap,
+  tmapCardinalArrow,
+  tmapInfoWindow,
+  tmapMarker,
+  tmapPolygon,
+  tmapPolyline
 
-Vue.config.productionTip = false
+];
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  render: h => h(App)
-})
-console.log(213)
-  new Promise(()=>{})
+const install = function(Vue, opts = {}) {
+  components.forEach(component => {
+    Vue.component(component.name, component);
+  });
+};
+
+if (typeof window !== 'undefined' && window.Vue) {
+  install(window.Vue);
+}
+
+export default {
+  version: '0.0.1',
+  install,
+  tmap,
+  tmapCardinalArrow,
+  tmapInfoWindow,
+  tmapMarker,
+  tmapPolygon,
+  tmapPolyline
+
+};

@@ -1,6 +1,6 @@
 <template>
   <div>
-   {{init}}
+   <tmap></tmap>
   </div>
 </template>
 
@@ -24,7 +24,6 @@
       console.log(23423)
     },
     components: {
-     
     }
   }
 </script>

@@ -7,7 +7,7 @@ function findRootDir(dir) {
     return CWD;
   }
 
-  if (pathExistsSync(join(dir, 'vant.config.js'))) {
+  if (pathExistsSync(join(dir, 'pllh.config.js'))) {
     return dir;
   }
 

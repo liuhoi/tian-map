@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 const {program} = require('commander')
 const version = require('../package.json').version
-const { pathExistsSync } =  require ('fs-extra');
 const dev = require('./commands/dev')
 const build = require('./commands/build')
 const buildSite = require('./commands/build-site')
-
-const {ROOT,CWD} = require('./common/constant')
 
 program.version(version)
 

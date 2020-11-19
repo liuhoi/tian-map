@@ -1,9 +1,9 @@
 <script>
 import Vue from 'vue';
-import CONSTANTS from './config/constant'
+import CONSTANTS from '@/libs/config/constant'
 
 export default {
-  name: "tmapPolygon",
+  name: "tmapPolyline",
   inject: {
     $tmapPromiseLazy: { default: '' }
   },
@@ -36,10 +36,10 @@ export default {
               this.addPolygon();
             })
           }
-          
-          
+
+
         }
-        
+
       }
     }
   },
@@ -58,7 +58,7 @@ export default {
     }
   },
   created(){
-    
+
   },
   render(){
     return null
@@ -69,7 +69,7 @@ export default {
       this.$mapApi = mapApi;
     })
   },
-  
+
   destroyed() {
     this.removeaddPolygon();
   },
@@ -77,7 +77,7 @@ export default {
     initComponent() {
       this.removeaddPolygon();
       let {$tmap,$mapApi,polygon} = this;
-      this.$tmapComponent = new $mapApi.Polygon(polygon,this.mergeConfig);
+      this.$tmapComponent = new $mapApi.Polyline(polygon,this.mergeConfig);
       $tmap.addOverLay(this.$tmapComponent);
     },
     addPolygon(){

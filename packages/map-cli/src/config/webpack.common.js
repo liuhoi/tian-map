@@ -3,13 +3,24 @@ const fs =require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const VueLoaderPlugin  = require('vue-loader')
+const { VueLoaderPlugin } = require('vue-loader')
 
-const {CLIROOT} = require('../common/constant')
+const {CLIROOT,ROOT} = require('../common/constant')
 
 const resolve = (url) => path.resolve(CLIROOT, url)
 
+const CSS_LOADERS = [
+  'style-loader',
+  { loader: 'css-loader', options: { importLoaders: 1 } },
+  'postcss-loader'
+];
+
 const modules = {
+  entry:resolve('site/main.js'),
+  output:{
+    path:path.resolve(ROOT,'dist'),
+    filename:'[name][hash].js'
+  },
   module: {
     rules: [
       {
@@ -24,7 +35,10 @@ const modules = {
           options:{
             presets:[
               [
-                '@babel/preset-env',
+                '@babel/preset-env'
+              ],
+              [
+                '@vue/babel-preset-jsx'
               ]
             ],
             plugins:[
@@ -33,10 +47,33 @@ const modules = {
                 {
                   corejs:3
                 }
-              ]
+              ],
+              [
+                '@babel/plugin-syntax-dynamic-import'
+              ],
             ]
           }
         }]
+      },
+      {
+        test: /\.css$/,
+        sideEffects: true,
+        use: CSS_LOADERS,
+      },
+      {
+        test: /\.less$/,
+        sideEffects: true,
+        use: [...CSS_LOADERS, 'less-loader'],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        sideEffects: true,
+        use: [
+          ...CSS_LOADERS,
+          {
+            loader: 'sass-loader',
+          },
+        ],
       },
       
     ],
@@ -52,7 +89,7 @@ const modules = {
   resolve:{
     extensions:['.js', '.vue', '.json'],
     alias:{
-      '@':resolve('src'),
+      '@':path.resolve(ROOT,'src'),
       '@docs':resolve('docs'),
     }
   }

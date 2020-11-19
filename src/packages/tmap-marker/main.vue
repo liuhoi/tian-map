@@ -1,7 +1,7 @@
 <script>
 import Vue from 'vue';
-import markerOverlayCreator from './overlay/mapOverlay'
-import CONSTANTS from './config/constant'
+import markerOverlayCreator from '@/libs/overlay/mapOverlay'
+import CONSTANTS from '@/libs/config/constant'
 
 export default {
   name: "tmapMarker",

@@ -1,7 +1,7 @@
 <script>
 import Vue from 'vue';
-import infoWindowOverlayCreator from './overlay/infoWindowOverlay'
-import CONSTANTS from './config/constant'
+import infoWindowOverlayCreator from '@/libs/overlay/infoWindowOverlay'
+import CONSTANTS from '@/libs/config/constant'
 
 export default {
   name: "tmapInfoWindow",
