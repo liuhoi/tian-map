@@ -1,10 +1,14 @@
 const {join,dirname,isAbsolution,parse} = require('path');
 const {pathExistsSync} = require('fs-extra')
 
+exports.CWD = process.cwd();
+
+const rootDir = parse(exports.CWD).root;
+
 function findRootDir(dir) {
 
   if (dir === rootDir || dir === '/') {
-    return CWD;
+    return exports.CWD;
   }
 
   if (pathExistsSync(join(dir, 'pllh.config.js'))) {
@@ -14,20 +18,10 @@ function findRootDir(dir) {
   return findRootDir(dirname(dir));
 }
 
-const CWD = process.cwd();
-const rootDir = parse(CWD).root;
-
-const ROOT = findRootDir(CWD);
-
-const CLIROOT = join(__dirname,'../..');
-
 exports.GREEN = '#07c160';
 
-exports.ROOT = ROOT;
+exports.ROOT = findRootDir(exports.CWD);
 
-exports.CWD = CWD;
+exports.CLIROOT = join(__dirname,'../..');
 
-exports.CLIROOT = CLIROOT;
-
-exports.SITE_DIST_DIR = join(ROOT, 'site');
-
+exports.SITE_DIST_DIR = join(exports.ROOT, 'site');
