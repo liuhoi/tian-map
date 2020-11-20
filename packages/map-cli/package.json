@@ -1,6 +1,6 @@
 {
   "name": "pllh-map-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "src/index.js",
   "bin": {
@@ -18,9 +18,11 @@
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@babel/runtime-corejs3": "^7.11.2",
+    "@vant/markdown-loader": "^3.0.0",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
     "address": "^1.1.2",
+    "autoprefixer": "^10.0.2",
     "babel-loader": "^8.2.1",
     "chalk": "^4.1.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -34,6 +36,7 @@
     "lodash": "^4.17.20",
     "ora": "^5.1.0",
     "portfinder": "^1.0.28",
+    "postcss": "^8.1.7",
     "postcss-loader": "^4.0.4",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",
@@ -44,7 +47,8 @@
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.1.4"
+    "webpack-merge": "^5.1.4",
+    "webpackbar": "^5.0.0-3"
   },
   "devDependencies": {},
   "peerDependencies": {
