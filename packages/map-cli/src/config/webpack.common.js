@@ -91,7 +91,8 @@ const modules = {
     alias:{
       '@':path.resolve(ROOT,'src'),
       '@docs':resolve('docs'),
-    }
+    },
+    symlinks: true
   }
 }
 

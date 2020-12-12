@@ -1,5 +1,5 @@
 {
-  "name": "pllh-map-cli",
+  "name": "map-cli",
   "version": "1.0.3",
   "description": "",
   "main": "src/index.js",
