@@ -1,6 +1,10 @@
 <template>
   <div>
-   <tmap></tmap>
+   <tmap>
+     <tmap-marker v-for="marker in markers" :marker="marker">
+       <div>asdfasd</div>
+     </tmap-marker>
+   </tmap>
   </div>
 </template>
 
@@ -9,15 +13,21 @@
     name: 'app',
     data () {
       return {
-        init: false,
-        isIndex: true
+        markers:[]
       }
     },
     mounted () {
-      //  这里模拟数据请求
-      setTimeout(() => {
-        this.init = true
-      }, 250)
+      for (var i = 0; i < 10; i++) {
+        let lng = 104.06 - (Math.random() * 0.1).toFixed(6);
+        let lat = 30.67	 - (Math.random() * 0.1).toFixed(4);
+        var point = [lng, lat];
+        this.markers.push({
+          position:point,
+          data:{}
+        })
+      }
+      
+     
     },
     components: {
     }

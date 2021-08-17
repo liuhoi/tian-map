@@ -9,6 +9,7 @@ export default function(mapApi){
       this.map = map;
       this.html.style.position = 'absolute'
       map.getPanes().markerPane.appendChild(this.html);
+      console.log(map.getPanes())
       this.update();
     },
   

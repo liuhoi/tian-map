@@ -126,5 +126,13 @@ export default {
     bottom: 0;
     z-index: 2;
   }
+  ::v-deep .map-container{
+    .tdt-overlay-pane {
+      *{
+        box-sizing: content-box;
+      }
+     
+    }
+  }
 }
 </style>

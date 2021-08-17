@@ -50,6 +50,7 @@ export default {
     }).$mount();
   },
   render(){
+    
     const slot = this.$scopedSlots.default();
     if(slot && slot.length){
       this.tmpVM.node = slot;
