@@ -4,6 +4,8 @@ import tmapInfoWindow from '@/packages/tmap-info-window';
 import tmapMarker from '@/packages/tmap-marker';
 import tmapPolygon from '@/packages/tmap-polygon';
 import tmapPolyline from '@/packages/tmap-polyline';
+import tmapCluster from '@/packages/tmap-cluster';
+
 
 const components = [
   tmap,
@@ -11,7 +13,8 @@ const components = [
   tmapInfoWindow,
   tmapMarker,
   tmapPolygon,
-  tmapPolyline
+  tmapPolyline,
+  tmapCluster
 
 ];
 
@@ -33,6 +36,7 @@ export default {
   tmapInfoWindow,
   tmapMarker,
   tmapPolygon,
-  tmapPolyline
+  tmapPolyline,
+  tmapCluster
 
 };

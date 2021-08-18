@@ -1,7 +1,7 @@
-import tmapMarker from './main';
+import tmapCluster from './main';
 
-tmapMarker.install = function(Vue) {
-  Vue.component(tmapMarker.name, tmapMarker);
+tmapCluster.install = function(Vue) {
+  Vue.component(tmapCluster.name, tmapCluster);
 };
 
-export default tmapMarker;
+export default tmapCluster;
