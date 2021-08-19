@@ -1,7 +1,7 @@
 <script>
 import Vue from 'vue';
 import markerOverlayCreator from '@/libs/overlay/mapOverlay'
-import CONSTANTS from '@/libs/config/constant'
+import {MarkerClusterer} from '@/libs/utils/MarkerClusterer'
 
 export default {
   name: "tmapCluster",
@@ -18,7 +18,7 @@ export default {
     markers:{
       deep:true,
       handler(val){
-       
+        // this.addMarkers(val)
       }
     }
   },
@@ -33,11 +33,7 @@ export default {
   created(){
     this.tmpVM = new Vue({
       data() {
-        return {
-          node: '',
-          $tmap:null,
-          $mapApi:null
-        };
+        return {node: ''};
       },
       render(h) {
         const {node} = this;
@@ -50,34 +46,36 @@ export default {
     }).$mount();
   },
   render(){
+    this.tmpVM.node = this.$slots.marker || '';
     return null
   },
   mounted(){
     this.$tmapPromiseLazy.then(({map,mapApi}) => {
-      this.tmpVM.$tmap = map
-      this.tmpVM.$mapApi = mapApi
       this.$tmap = map;
       this.$mapApi = mapApi;
       this.$overlayCreator = markerOverlayCreator(mapApi);
+      this.addMarkers(this.markers)
     })
   },
   
   destroyed() {
-    this.tmpVM.$destroy();
     this.removeOverlay();
   },
   methods:{
-    initComponent(map,mapApi) {
-     
-      let {$overlayCreator,marker} = this;
-      this.$tmapComponent = new $overlayCreator( this.tmpVM.$refs.node,{
-        lngLat:marker.position,
-        data:marker.data
-      });
-      map.addOverLay(this.$tmapComponent);
+    addMarkers(arr){
+      let markers = arr.map(data => {
+        return this.initMarker(data)
+      })
+      new MarkerClusterer(this.$tmap,{
+        markers
+      })
     },
-    addOverLay(){
-      this.initComponent(this.$tmap,this.$mapApi);
+    initMarker(data){
+      let html = this.tmpVM.$refs.node.cloneNode(true)
+      return new this.$overlayCreator(html,{
+        lngLat:data.position,
+        data:data.data||{}
+      })
     },
     removeOverlay(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)

@@ -1,10 +1,14 @@
 <template>
   <div>
    <tmap ref="map">
-      <tmap-marker v-for="(marker,index) in markers" :key="index" :marker="marker">
+      <!-- <tmap-marker v-for="(marker,index) in markers" :key="index" :marker="marker">
         <div style="color:red;">点{{index}}</div>
-      </tmap-marker>
-      <tmap-cluster :markers="markers"></tmap-cluster>
+      </tmap-marker> -->
+      <tmap-cluster :markers="markers">
+        <template v-slot:marker>
+           <div style="color:red;">asdfas</div>
+        </template>
+      </tmap-cluster>
    </tmap>
   </div>
 </template>

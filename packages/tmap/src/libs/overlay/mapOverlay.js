@@ -9,7 +9,6 @@ export default function(mapApi){
       this.map = map;
       this.html.style.position = 'absolute'
       map.getPanes().markerPane.appendChild(this.html);
-      console.log(map.getPanes())
       this.update();
     },
   
@@ -30,6 +29,9 @@ export default function(mapApi){
       var pos = this.map.lngLatToLayerPoint(this.lnglat);
       this.html.style.top =  pos.y  + "px";
       this.html.style.left = pos.x  + "px";
+    },
+    getPosition(){
+      return this.lnglat
     }
   });
 }
