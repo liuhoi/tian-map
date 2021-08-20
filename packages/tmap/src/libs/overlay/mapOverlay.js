@@ -5,7 +5,6 @@ export default function(mapApi){
       this.lnglat = new mapApi.LngLat(...options.lngLat);
     },
     onAdd: function (map) {
-
       this.map = map;
       this.html.style.position = 'absolute'
       map.getPanes().markerPane.appendChild(this.html);
@@ -16,8 +15,8 @@ export default function(mapApi){
       let parent = this.html.parentNode;
       if (parent) {
         parent.removeChild(this.html);
-        this.map = null;
-        this.html = null;
+        // this.map = null;
+        // this.html = null;
       }
     },
 
@@ -32,6 +31,22 @@ export default function(mapApi){
     },
     getPosition(){
       return this.lnglat
+    },
+    hide(){
+      this.onRemove()
+    },
+    show(){
+      let parent = document.getElementsByClassName('tdt-marker-pane');
+      if (parent[0]) {
+        parent[0].appendChild(this.html);
+      }
+    },
+    setLngLat(lnglat){
+      this.lnglat = lnglat
+      this.update()
+    },
+    setText(text){
+      this.html.querySelector('.html').innerHTML = text
     }
   });
 }

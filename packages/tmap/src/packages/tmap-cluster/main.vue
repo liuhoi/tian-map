@@ -44,9 +44,23 @@ export default {
         )
       }
     }).$mount();
+    this.tmpVMC = new Vue({
+      data() {
+        return {node: ''};
+      },
+      render(h) {
+        const {node} = this;
+        return (
+          <div ref='node'>
+            {node}
+          </div>
+        )
+      }
+    }).$mount();
   },
   render(){
-    this.tmpVM.node = this.$slots.marker || '';
+    this.tmpVM.node = this.$scopedSlots.marker() || '';
+    this.tmpVMC.node = this.$scopedSlots.default()
     return null
   },
   mounted(){
@@ -67,7 +81,8 @@ export default {
         return this.initMarker(data)
       })
       new MarkerClusterer(this.$tmap,{
-        markers
+        markers,
+        clusterMarker:this.initClusterMarker
       })
     },
     initMarker(data){
@@ -75,6 +90,13 @@ export default {
       return new this.$overlayCreator(html,{
         lngLat:data.position,
         data:data.data||{}
+      })
+    },
+    initClusterMarker(){
+      let html = this.tmpVMC.$refs.node.cloneNode(true)
+      return new this.$overlayCreator(html,{
+        lngLat:[104.06, 30.67],
+        data:{}
       })
     },
     removeOverlay(){

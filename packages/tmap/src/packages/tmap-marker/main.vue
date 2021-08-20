@@ -1,7 +1,7 @@
 <script>
 import Vue from 'vue';
 import markerOverlayCreator from '@/libs/overlay/mapOverlay'
-import CONSTANTS from '@/libs/config/constant'
+import {Marker} from '@/libs/overlay/mapOverlayT'
 
 export default {
   name: "tmapMarker",
@@ -21,6 +21,7 @@ export default {
         this.addOverLay();
       }
     }
+    
   },
   data(){
     return {
@@ -76,7 +77,12 @@ export default {
     initComponent(map,mapApi) {
      
       let {$overlayCreator,marker} = this;
-      this.$tmapComponent = new $overlayCreator( this.tmpVM.$refs.node,{
+      // this.$tmapComponent = new $overlayCreator( this.tmpVM.$refs.node,{
+      //   lngLat:marker.position,
+      //   data:marker.data
+      // });
+
+      this.$tmapComponent = new Marker( this.tmpVM.$refs.node,{
         lngLat:marker.position,
         data:marker.data
       });

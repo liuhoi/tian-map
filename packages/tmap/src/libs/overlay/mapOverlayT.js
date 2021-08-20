@@ -1,0 +1,1 @@
+export {Marker} from '@/libs/adaper/tmap/markerAdaper'

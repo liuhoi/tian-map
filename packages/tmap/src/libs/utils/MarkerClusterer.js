@@ -1,12 +1,42 @@
+let getExtendedBounds = function(map, bounds, gridSize){
+  bounds = cutBoundsInRange(bounds);
+  var pixelNE = map.lngLatToLayerPoint(bounds.getNorthEast());
+  var pixelSW = map.lngLatToLayerPoint(bounds.getSouthWest()); 
+  pixelNE.x += gridSize;
+  pixelNE.y -= gridSize;
+  pixelSW.x -= gridSize;
+  pixelSW.y += gridSize;
+  var newNE = map.layerPointToLngLat(pixelNE);
+  var newSW = map.layerPointToLngLat(pixelSW);
+  return new T.LngLatBounds(newSW, newNE);
+};
+
+let cutBoundsInRange = function (bounds) {
+  var maxX = getRange(bounds.getNorthEast().lng, -180, 180);
+  var minX = getRange(bounds.getSouthWest().lng, -180, 180);
+  var maxY = getRange(bounds.getNorthEast().lat, -74, 74);
+  var minY = getRange(bounds.getSouthWest().lat, -74, 74);
+  return new T.LngLatBounds(new T.LngLat(minX, minY), new T.LngLat(maxX, maxY));
+}; 
+
+let getRange = function (i, mix, max) {
+  mix && (i = Math.max(i, mix));
+  max && (i = Math.min(i, max));
+  return i;
+};
+
+
 export class MarkerClusterer {
   constructor(map, options) {
     this._map = map;
     this._markers = [];
     this._clusters = [];
+    this._gridSize = 60;
     this._map.addEventListener('zoomend', (e) => {
       this._redraw();
     })
     let mkrs = options.markers || [];
+    this.clusterMarker = options.clusterMarker
     this.addMarkers(mkrs)
   }
   
@@ -19,6 +49,10 @@ export class MarkerClusterer {
 
   getMap(){
     return this._map;
+  }
+
+  getGridSize(){
+    return this._gridSize;
   }
 
   _pushMarkerTo(marker) {
@@ -76,20 +110,24 @@ export class MarkerClusterer {
       marker.isInCluster = false;
     }
   }
+  
 }
 
 export class Cluster {
   constructor(markerClusterer) {
+    this._markerClusterer = markerClusterer;
     this._map = markerClusterer.getMap();
     this._center = null;
     this._markers = []
     this._minClusterSize = 2
-    this._clusterMarker = new T.Marker(new T.LngLat(116.411794, 39.9068))
+    this._gridBounds = null;//以中心点为准，向四边扩大gridSize个像素的范围，也即网格范围
+    this._clusterMarker = markerClusterer.clusterMarker()
     //this._map.addOverLay(this._clusterMarker);
   }
   addMarker(marker) {
     if(!this._center){
       this._center = marker.getPosition();
+      this.updateGridBounds();
     }
     marker.isInCluster = true;
     this._markers.push(marker);
@@ -98,7 +136,7 @@ export class Cluster {
     if(len < this._minClusterSize ){    
       this._map.addOverLay(marker);
       
-      // return true;
+      return true;
     } else if (len === this._minClusterSize) {
       for (let i = 0; i < len; i++) {
         this._map.removeOverLay(this._markers[i]);
@@ -112,14 +150,17 @@ export class Cluster {
   getCenter(){
     return this._center;
   }
-  isMarkerInClusterBounds(){
-
+  isMarkerInClusterBounds(marker){
+    return this._gridBounds.contains(marker.getPosition());
   }
   updateClusterMarker(){
     if (this._markers.length < this._minClusterSize) {
       this._clusterMarker.hide();
       return;
     }
+    this._clusterMarker.show();
+    this._clusterMarker.setText(this._markers.length)
+    this._clusterMarker.setLngLat(this._center)
   }
   remove(){
     for (let i = 0, m; m = this._markers[i]; i++) {
@@ -128,5 +169,10 @@ export class Cluster {
     this._map.removeOverLay(this._clusterMarker);
     this._markers.length = 0;
     delete this._markers;
+  }
+  updateGridBounds(){
+    var bounds = new T.LngLatBounds(this._center, this._center);
+    this._gridBounds = getExtendedBounds(this._map, bounds, this._markerClusterer.getGridSize());
+
   }
 }
