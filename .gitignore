@@ -16,3 +16,4 @@ dist
 changelog.generated.md
 test/coverage
 vetur
+yarn.lock

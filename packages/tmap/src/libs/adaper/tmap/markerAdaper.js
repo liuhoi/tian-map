@@ -3,7 +3,6 @@ class Marker {
     return new (this.initOverlay())(html,options)
   }
   _initialize (html,options = {}) {
-    console.log(this)
     this.html = html;
     this.lnglat = new T.LngLat(...options.lngLat);
   }
