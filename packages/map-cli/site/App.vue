@@ -2,7 +2,9 @@
   <div>
    <tmap ref="map">
       <!-- <tmap-marker v-for="(marker,index) in markers" :key="index" :marker="marker">
-        <div style="color:red;">点{{index}}</div>
+        <template #default="{markerNum}">
+          <div style="color:red;">点{{markerNum}}</div>
+        </template>
       </tmap-marker> -->
       <tmap-cluster :markers="markers">
         <template #marker>
@@ -20,7 +22,6 @@
 
 <script>
 
-  import Tmap from '@/index'
   export default {
     name: 'app',
     data () {

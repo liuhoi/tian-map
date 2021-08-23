@@ -1,7 +1,6 @@
 <script>
 import Vue from 'vue';
-import markerOverlayCreator from '@/libs/overlay/mapOverlay'
-import {Marker} from '@/libs/overlay/mapOverlayT'
+import {ProxyMarker} from '@/libs/overlay/mapOverlayT'
 
 export default {
   name: "tmapMarker",
@@ -32,30 +31,12 @@ export default {
     }
   },
   created(){
-    this.tmpVM = new Vue({
-      data() {
-        return {
-          node: '',
-          $tmap:null,
-          $mapApi:null
-        };
-      },
-      render(h) {
-        const {node} = this;
-        return (
-          <div ref='node'>
-            {node}
-          </div>
-        )
-      }
-    }).$mount();
+    this.tmpVM = this.initTmpVue()
   },
   render(){
     
-    const slot = this.$scopedSlots.default();
-    if(slot && slot.length){
-      this.tmpVM.node = slot;
-    }
+    this.tmpVM.node =  this.$scopedSlots.default();
+
     return null
   },
   mounted(){
@@ -64,7 +45,6 @@ export default {
       this.tmpVM.$mapApi = mapApi
       this.$tmap = map;
       this.$mapApi = mapApi;
-      this.$overlayCreator = markerOverlayCreator(mapApi);
       this.addOverLay();
     })
   },
@@ -76,13 +56,9 @@ export default {
   methods:{
     initComponent(map,mapApi) {
      
-      let {$overlayCreator,marker} = this;
-      // this.$tmapComponent = new $overlayCreator( this.tmpVM.$refs.node,{
-      //   lngLat:marker.position,
-      //   data:marker.data
-      // });
+      let {marker} = this;
 
-      this.$tmapComponent = new Marker( this.tmpVM.$refs.node,{
+      this.$tmapComponent = new ProxyMarker( this.tmpVM,{
         lngLat:marker.position,
         data:marker.data
       });
@@ -94,6 +70,23 @@ export default {
     removeOverlay(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
       this.$tmapComponent = null;
+    },
+    initTmpVue(){
+      return new Vue({
+        data() {
+          return {
+            node: null,
+          };
+        },
+        render(h) {
+          const {node} = this;
+          return (
+            <div ref='node'>
+              {node}
+            </div>
+          )
+        }
+      }).$mount();
     }
   },
 };

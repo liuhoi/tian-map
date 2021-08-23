@@ -1,3 +1,5 @@
+import {LngLatBounds,LngLat} from './apiAdaper'
+
 let getExtendedBounds = function(map, bounds, gridSize){
   bounds = cutBoundsInRange(bounds);
   var pixelNE = map.lngLatToLayerPoint(bounds.getNorthEast());
@@ -8,7 +10,7 @@ let getExtendedBounds = function(map, bounds, gridSize){
   pixelSW.y += gridSize;
   var newNE = map.layerPointToLngLat(pixelNE);
   var newSW = map.layerPointToLngLat(pixelSW);
-  return new T.LngLatBounds(newSW, newNE);
+  return new LngLatBounds(newSW, newNE);
 };
 
 let cutBoundsInRange = function (bounds) {
@@ -16,7 +18,7 @@ let cutBoundsInRange = function (bounds) {
   var minX = getRange(bounds.getSouthWest().lng, -180, 180);
   var maxY = getRange(bounds.getNorthEast().lat, -74, 74);
   var minY = getRange(bounds.getSouthWest().lat, -74, 74);
-  return new T.LngLatBounds(new T.LngLat(minX, minY), new T.LngLat(maxX, maxY));
+  return new LngLatBounds(new LngLat(minX, minY), new LngLat(maxX, maxY));
 }; 
 
 let getRange = function (i, mix, max) {
@@ -122,7 +124,6 @@ export class Cluster {
     this._minClusterSize = 2
     this._gridBounds = null;//以中心点为准，向四边扩大gridSize个像素的范围，也即网格范围
     this._clusterMarker = markerClusterer.clusterMarker()
-    //this._map.addOverLay(this._clusterMarker);
   }
   addMarker(marker) {
     if(!this._center){
@@ -171,7 +172,7 @@ export class Cluster {
     delete this._markers;
   }
   updateGridBounds(){
-    var bounds = new T.LngLatBounds(this._center, this._center);
+    var bounds = new LngLatBounds(this._center, this._center);
     this._gridBounds = getExtendedBounds(this._map, bounds, this._markerClusterer.getGridSize());
 
   }

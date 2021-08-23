@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import markerOverlayCreator from '@/libs/overlay/mapOverlay'
 import {MarkerClusterer} from '@/libs/utils/MarkerClusterer'
-
+import {ProxyCluster} from '@/libs/overlay/mapOverlayT'
 export default {
   name: "tmapCluster",
   inject: {
@@ -31,32 +31,8 @@ export default {
     }
   },
   created(){
-    this.tmpVM = new Vue({
-      data() {
-        return {node: ''};
-      },
-      render(h) {
-        const {node} = this;
-        return (
-          <div ref='node'>
-            {node}
-          </div>
-        )
-      }
-    }).$mount();
-    this.tmpVMC = new Vue({
-      data() {
-        return {node: ''};
-      },
-      render(h) {
-        const {node} = this;
-        return (
-          <div ref='node'>
-            {node}
-          </div>
-        )
-      }
-    }).$mount();
+    this.tmpVM = this.initTmpVue();
+    this.tmpVMC = this.initTmpVue();
   },
   render(){
     this.tmpVM.node = this.$scopedSlots.marker() || '';
@@ -86,15 +62,13 @@ export default {
       })
     },
     initMarker(data){
-      let html = this.tmpVM.$refs.node.cloneNode(true)
-      return new this.$overlayCreator(html,{
+      return new ProxyCluster(this.tmpVM,{
         lngLat:data.position,
         data:data.data||{}
       })
     },
     initClusterMarker(){
-      let html = this.tmpVMC.$refs.node.cloneNode(true)
-      return new this.$overlayCreator(html,{
+      return new ProxyCluster(this.tmpVMC,{
         lngLat:[104.06, 30.67],
         data:{}
       })
@@ -102,6 +76,24 @@ export default {
     removeOverlay(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
       this.$tmapComponent = null;
+    },
+    initTmpVue(){
+      return new Vue({
+        data() {
+          return {
+            node: null,
+            markerNum:0
+          };
+        },
+        render(h) {
+          const {node} = this;
+          return (
+            <div ref='node'>
+              {node}
+            </div>
+          )
+        }
+      }).$mount();
     }
   },
 };

@@ -1,10 +1,13 @@
+import {LngLat} from './apiAdaper'
+
 class Marker {
-  constructor(html,options){
-    return new (this.initOverlay())(html,options)
+  constructor(){
+    
   }
-  _initialize (html,options = {}) {
-    this.html = html;
-    this.lnglat = new T.LngLat(...options.lngLat);
+  _initialize (Vue,options = {}) {
+    this.Vue = Vue
+    this.html = Vue.$el;
+    this.lnglat = new LngLat(...options.lngLat);
   }
   _onAdd (map) {
     this.map = map;
@@ -14,37 +17,40 @@ class Marker {
   }
 
   _onRemove () {
-    let parent = this.html.parentNode;
-    if (parent) {
-      parent.removeChild(this.html);
+    let markerPane = this.map.getPanes().markerPane;
+    if (markerPane) {
+      markerPane.removeChild(this.html);
       // this.map = null;
       // this.html = null;
     }
   }
   _update () {
-    
     var pos = this.map.lngLatToLayerPoint(this.lnglat);
     this.html.style.top =  pos.y  + "px";
     this.html.style.left = pos.x  + "px";
   }
-  extendMethods({
-    initialize,
-    onAdd,
-    onRemove,
-    update,
-    ...methodObjects
-  } = {}){
-    return {
-      initialize:initialize || this._initialize,
-      onAdd:onAdd || this._onAdd,
-      onRemove:onRemove || this._onRemove,
-      update:update || this._update,
-      ...methodObjects
-    }
+  extendMethods(){
+    return {}
   }
   initOverlay(){
-    return T.Overlay.extend(this.extendMethods())
+    let cycle = {
+      initialize:this._initialize,
+      onAdd:this._onAdd,
+      onRemove:this._onRemove,
+      update:this._update,
+    }
+    let extendMethods = {...cycle,...this.extendMethods()};
+    return T.Overlay.extend(extendMethods)
+  }
+  init(html,options){
+    return new (this.initOverlay())(html,options)
   }
 }
 
-export {Marker}
+let ProxyMarker = new Proxy(Marker,{
+  construct(target,[html,options]){
+    return new target().init(html,options)
+  }
+})
+
+export {Marker,ProxyMarker}
