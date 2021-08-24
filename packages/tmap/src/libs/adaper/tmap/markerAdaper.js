@@ -4,10 +4,10 @@ class Marker {
   constructor(){
     
   }
-  _initialize (Vue,options = {}) {
+  _initialize (Vue) {
     this.Vue = Vue
-    this.html = Vue.$el;
-    this.lnglat = new LngLat(...options.lngLat);
+    this.html = Vue.$el.cloneNode(true);
+    this.lnglat = new LngLat(...Vue.position);
   }
   _onAdd (map) {
     this.map = map;

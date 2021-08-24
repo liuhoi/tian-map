@@ -5,11 +5,6 @@ class Cluster extends Marker{
   constructor(){
     super()
   }
-  _initialize(Vue,options){
-    this.Vue = Vue
-    this.html = Vue.$el.cloneNode(true);
-    this.lnglat = new LngLat(...options.lngLat);
-  }
   extendMethods(){
     return {
       getPosition:this.getPosition,
@@ -36,6 +31,7 @@ class Cluster extends Marker{
     this.update()
   }
   setText(text){
+    console.log(text,this.Vue)
     this.Vue.markerNum = text
     // this.html.querySelector('.html').innerHTML = text
   }

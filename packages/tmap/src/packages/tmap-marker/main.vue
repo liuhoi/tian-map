@@ -17,7 +17,8 @@ export default {
     marker:{
       deep:true,
       handler(val){
-        this.addOverLay();
+       
+       
       }
     }
     
@@ -27,25 +28,23 @@ export default {
       $tmap:null,
       $tmapComponent:null,
       $mapApi : null,
-      $overlayCreator:null,
+      tmpVM:null
     }
   },
   created(){
-    this.tmpVM = this.initTmpVue()
+    
   },
   render(){
-    
+    this.tmpVM = this.initTmpVue(this.marker)
     this.tmpVM.node =  this.$scopedSlots.default();
 
     return null
   },
   mounted(){
     this.$tmapPromiseLazy.then(({map,mapApi}) => {
-      this.tmpVM.$tmap = map
-      this.tmpVM.$mapApi = mapApi
       this.$tmap = map;
       this.$mapApi = mapApi;
-      this.addOverLay();
+      this.initComponent();
     })
   },
   
@@ -54,28 +53,24 @@ export default {
     this.removeOverlay();
   },
   methods:{
-    initComponent(map,mapApi) {
-     
-      let {marker} = this;
-
-      this.$tmapComponent = new ProxyMarker( this.tmpVM,{
-        lngLat:marker.position,
-        data:marker.data
-      });
-      map.addOverLay(this.$tmapComponent);
+    initComponent() {
+      this.$tmapComponent = this.initMarker();
+      this.$tmap.addOverLay(this.$tmapComponent);
     },
-    addOverLay(){
-      this.initComponent(this.$tmap,this.$mapApi);
+    initMarker(){
+      return new ProxyMarker( this.tmpVM)
     },
     removeOverlay(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
       this.$tmapComponent = null;
     },
-    initTmpVue(){
+    initTmpVue(marker){
       return new Vue({
         data() {
           return {
             node: null,
+            position:marker.position,
+            keyData:marker.data
           };
         },
         render(h) {

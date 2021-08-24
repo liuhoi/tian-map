@@ -10,9 +10,9 @@
         <template #marker>
           <div style="color:red;">asdfas</div>
         </template>
-        <template #default="{markerNum}">
+        <template #default="markerNum">
           <div style="color:yellow;" class="html">
-            1111{{markerNum}}
+            点{{markerNum}}
           </div>
         </template>
       </tmap-cluster>

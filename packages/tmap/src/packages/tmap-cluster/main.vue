@@ -1,100 +1,102 @@
 <script>
-import Vue from 'vue';
-import markerOverlayCreator from '@/libs/overlay/mapOverlay'
-import {MarkerClusterer} from '@/libs/utils/MarkerClusterer'
-import {ProxyCluster} from '@/libs/overlay/mapOverlayT'
+import Vue from "vue";
+import markerOverlayCreator from "@/libs/overlay/mapOverlay";
+import { MarkerClusterer } from "@/libs/utils/MarkerClusterer";
+import { ProxyCluster } from "@/libs/overlay/mapOverlayT";
 export default {
   name: "tmapCluster",
   inject: {
-    $tmapPromiseLazy: { default: '' }
+    $tmapPromiseLazy: { default: "" },
   },
   props: {
     markers: {
-      type:Array,
-      default:()=>[]
-    }
+      type: Array,
+      default: () => [],
+    },
   },
-  watch:{
-    markers:{
-      deep:true,
-      handler(val){
+  watch: {
+    markers: {
+      deep: true,
+      async handler(val) {
+        
         // this.addMarkers(val)
-      }
-    }
+      },
+    },
   },
-  data(){
+  data() {
     return {
-      $tmap:null,
-      $tmapComponent:null,
-      $mapApi : null,
-      $overlayCreator:null,
-    }
+      $tmap: null,
+      $tmapComponent: null,
+      $mapApi: null,
+      tmpVM: null,
+      tmpVMC:null
+    };
   },
-  created(){
-    this.tmpVM = this.initTmpVue();
-    this.tmpVMC = this.initTmpVue();
+  created() {
+    this.tmpVMC = this.initTmpVue({
+      position:[104.06, 30.67],
+      data:{}
+    });
   },
-  render(){
-    this.tmpVM.node = this.$scopedSlots.marker() || '';
-    this.tmpVMC.node = this.$scopedSlots.default()
-    return null
+  render() {
+    this.tmpVM = this.markers.map((marker) => {
+      return this.initTmpVue(marker,this.$scopedSlots.marker());
+    });
+
+    console.log(1)
+    this.tmpVMC.node = this.$scopedSlots.default({markerNum:this.tmpVMC.markerNum})
+    
+
+    return null;
   },
-  mounted(){
-    this.$tmapPromiseLazy.then(({map,mapApi}) => {
+  mounted() {
+    this.$tmapPromiseLazy.then(({ map, mapApi }) => {
       this.$tmap = map;
       this.$mapApi = mapApi;
       this.$overlayCreator = markerOverlayCreator(mapApi);
-      this.addMarkers(this.markers)
-    })
+      this.addMarkers(this.tmpVM);
+    });
   },
-  
+
   destroyed() {
     this.removeOverlay();
   },
-  methods:{
-    addMarkers(arr){
-      let markers = arr.map(data => {
-        return this.initMarker(data)
-      })
-      new MarkerClusterer(this.$tmap,{
+  methods: {
+    addMarkers(arr) {
+      let markers = arr.map((data) => {
+        return this.initMarker(data);
+      });
+      new MarkerClusterer(this.$tmap, {
         markers,
-        clusterMarker:this.initClusterMarker
-      })
+        clusterMarker: this.initClusterMarker,
+      });
     },
-    initMarker(data){
-      return new ProxyCluster(this.tmpVM,{
-        lngLat:data.position,
-        data:data.data||{}
-      })
+    initMarker(vm) {
+      return new ProxyCluster(vm);
     },
-    initClusterMarker(){
-      return new ProxyCluster(this.tmpVMC,{
-        lngLat:[104.06, 30.67],
-        data:{}
-      })
+    initClusterMarker() {
+      return new ProxyCluster(this.tmpVMC);
     },
-    removeOverlay(){
-      this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
+    removeOverlay() {
+      this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent);
       this.$tmapComponent = null;
     },
-    initTmpVue(){
+    initTmpVue(marker,node) {
       return new Vue({
         data() {
           return {
-            node: null,
-            markerNum:0
+            node: node || null,
+            markerNum: 0,
+            position: marker.position,
+            keyData: marker.data,
           };
         },
         render(h) {
-          const {node} = this;
-          return (
-            <div ref='node'>
-              {node}
-            </div>
-          )
-        }
+          const { node } = this;
+          return <div ref="node">{node}</div>;
+        },
       }).$mount();
-    }
+    },
   },
 };
 </script>
