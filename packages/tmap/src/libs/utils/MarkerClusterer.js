@@ -2,22 +2,22 @@ import {LngLatBounds,LngLat} from './apiAdaper'
 
 let getExtendedBounds = function(map, bounds, gridSize){
   bounds = cutBoundsInRange(bounds);
-  var pixelNE = map.lngLatToLayerPoint(bounds.getNorthEast());
-  var pixelSW = map.lngLatToLayerPoint(bounds.getSouthWest()); 
+  let pixelNE = map.lngLatToLayerPoint(bounds.getNorthEast());
+  let pixelSW = map.lngLatToLayerPoint(bounds.getSouthWest()); 
   pixelNE.x += gridSize;
   pixelNE.y -= gridSize;
   pixelSW.x -= gridSize;
   pixelSW.y += gridSize;
-  var newNE = map.layerPointToLngLat(pixelNE);
-  var newSW = map.layerPointToLngLat(pixelSW);
+  let newNE = map.layerPointToLngLat(pixelNE);
+  let newSW = map.layerPointToLngLat(pixelSW);
   return new LngLatBounds(newSW, newNE);
 };
 
 let cutBoundsInRange = function (bounds) {
-  var maxX = getRange(bounds.getNorthEast().lng, -180, 180);
-  var minX = getRange(bounds.getSouthWest().lng, -180, 180);
-  var maxY = getRange(bounds.getNorthEast().lat, -74, 74);
-  var minY = getRange(bounds.getSouthWest().lat, -74, 74);
+  let maxX = getRange(bounds.getNorthEast().lng, -180, 180);
+  let minX = getRange(bounds.getSouthWest().lng, -180, 180);
+  let maxY = getRange(bounds.getNorthEast().lat, -74, 74);
+  let minY = getRange(bounds.getSouthWest().lat, -74, 74);
   return new LngLatBounds(new LngLat(minX, minY), new LngLat(maxX, maxY));
 }; 
 
@@ -37,6 +37,9 @@ export class MarkerClusterer {
     this._map.addEventListener('zoomend', (e) => {
       this._redraw();
     })
+    this._map.addEventListener('moveend',() => {
+      this._redraw();     
+    });
     let mkrs = options.markers || [];
     this.clusterMarker = options.clusterMarker
     this.addMarkers(mkrs)
@@ -72,12 +75,12 @@ export class MarkerClusterer {
   }
 
   _addToClosestCluster(marker){
-    var distance = 4000000;
-    var clusterToAddTo = null;
-    for(var i = 0, cluster; cluster = this._clusters[i]; i++){
-      var center = cluster.getCenter();
+    let distance = 4000000;
+    let clusterToAddTo = null;
+    for(let i = 0, cluster; cluster = this._clusters[i]; i++){
+      let center = cluster.getCenter();
       if(center){
-          var d = this._map.getDistance(center, marker.getPosition());
+          let d = this._map.getDistance(center, marker.getPosition());
           if(d < distance){
               distance = d;
               clusterToAddTo = cluster;
@@ -108,7 +111,7 @@ export class MarkerClusterer {
     this._removeMarkersFromCluster();//把Marker的cluster标记设为false
   }
   _removeMarkersFromCluster(){
-    for(var i = 0, marker; marker = this._markers[i]; i++){
+    for(let i = 0, marker; marker = this._markers[i]; i++){
       marker.isInCluster = false;
     }
   }
@@ -124,6 +127,13 @@ export class Cluster {
     this._minClusterSize = 2
     this._gridBounds = null;//以中心点为准，向四边扩大gridSize个像素的范围，也即网格范围
     this._clusterMarker = markerClusterer.clusterMarker()
+    let clusterMarker = this._clusterMarker.getElement();
+    clusterMarker.addEventListener('click', (event) => {
+      
+      let thatBounds = this.getBounds();
+      console.log(thatBounds)
+      this._map.setViewport([thatBounds.getSouthWest(),thatBounds.getNorthEast()]);
+    });
   }
   addMarker(marker) {
     if(!this._center){
@@ -162,6 +172,7 @@ export class Cluster {
     this._clusterMarker.show();
     this._clusterMarker.setText(this._markers.length)
     this._clusterMarker.setLngLat(this._center)
+   
   }
   remove(){
     for (let i = 0, m; m = this._markers[i]; i++) {
@@ -172,8 +183,16 @@ export class Cluster {
     delete this._markers;
   }
   updateGridBounds(){
-    var bounds = new LngLatBounds(this._center, this._center);
+    let bounds = new LngLatBounds(this._center, this._center);
     this._gridBounds = getExtendedBounds(this._map, bounds, this._markerClusterer.getGridSize());
 
+  }
+  getBounds(){
+    let bounds = new LngLatBounds(this._center,this._center);
+    
+    for (let i = 0, marker; marker = this._markers[i]; i++) {
+        bounds.extend(marker.getPosition());
+    }
+    return bounds;
   }
 }

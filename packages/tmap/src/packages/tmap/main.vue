@@ -115,23 +115,24 @@ export default {
   // /deep/ * {
   //   box-sizing: content-box;
   // }
-  ::v-deep .tdt-bottom.tdt-left{
-    display: none;
-  }
-  .map-container{
+  ::v-deep .map-container{
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 2;
-  }
-  ::v-deep .map-container{
     .tdt-overlay-pane {
       *{
         box-sizing: content-box;
       }
      
+    }
+    .tmap-marker{
+      cursor: pointer;
+    }
+    .tdt-bottom.tdt-left{
+      display: none;
     }
   }
 }

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "map-cli dev",
-    "build": "map-cli build"
+    "build": "map-cli build packages",
+    "build:site": "map-cli build site"
   },
   "keywords": [],
   "author": "",

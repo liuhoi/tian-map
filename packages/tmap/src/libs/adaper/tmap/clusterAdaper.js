@@ -1,6 +1,7 @@
 import {Marker} from './markerAdaper'
 import {LngLat} from './apiAdaper'
 
+
 class Cluster extends Marker{
   constructor(){
     super()
@@ -11,7 +12,8 @@ class Cluster extends Marker{
       hide:this.hide,
       show:this.show,
       setLngLat:this.setLngLat,
-      setText:this.setText
+      setText:this.setText,
+      getElement:this.getElement
     }
   }
   getPosition(){
@@ -31,9 +33,10 @@ class Cluster extends Marker{
     this.update()
   }
   setText(text){
-    console.log(text,this.Vue)
     this.Vue.markerNum = text
-    // this.html.querySelector('.html').innerHTML = text
+  }
+  getElement(){
+    return this.html
   }
 }
 

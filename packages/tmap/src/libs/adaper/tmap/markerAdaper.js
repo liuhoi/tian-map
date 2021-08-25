@@ -1,13 +1,14 @@
 import {LngLat} from './apiAdaper'
+import {vmFactory} from '../../utils/vmFactory'
 
 class Marker {
   constructor(){
     
   }
-  _initialize (Vue) {
-    this.Vue = Vue
-    this.html = Vue.$el.cloneNode(true);
-    this.lnglat = new LngLat(...Vue.position);
+  _initialize (html,options) {
+    this.Vue = vmFactory(html,options)
+    this.html = this.Vue.$el;
+    this.lnglat = new LngLat(...options.position);
   }
   _onAdd (map) {
     this.map = map;
@@ -19,6 +20,7 @@ class Marker {
   _onRemove () {
     let markerPane = this.map.getPanes().markerPane;
     if (markerPane) {
+      // this.Vue.$destroy();
       markerPane.removeChild(this.html);
       // this.map = null;
       // this.html = null;
@@ -45,6 +47,7 @@ class Marker {
   init(html,options){
     return new (this.initOverlay())(html,options)
   }
+  
 }
 
 let ProxyMarker = new Proxy(Marker,{

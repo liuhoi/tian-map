@@ -28,16 +28,9 @@ export default {
       $tmap:null,
       $tmapComponent:null,
       $mapApi : null,
-      tmpVM:null
     }
   },
-  created(){
-    
-  },
   render(){
-    this.tmpVM = this.initTmpVue(this.marker)
-    this.tmpVM.node =  this.$scopedSlots.default();
-
     return null
   },
   mounted(){
@@ -49,7 +42,6 @@ export default {
   },
   
   destroyed() {
-    this.tmpVM.$destroy();
     this.removeOverlay();
   },
   methods:{
@@ -58,30 +50,14 @@ export default {
       this.$tmap.addOverLay(this.$tmapComponent);
     },
     initMarker(){
-      return new ProxyMarker( this.tmpVM)
+      return new ProxyMarker( this.$scopedSlots.default,{
+        position:this.marker.position,
+        keyData:this.marker.data
+      })
     },
     removeOverlay(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
       this.$tmapComponent = null;
-    },
-    initTmpVue(marker){
-      return new Vue({
-        data() {
-          return {
-            node: null,
-            position:marker.position,
-            keyData:marker.data
-          };
-        },
-        render(h) {
-          const {node} = this;
-          return (
-            <div ref='node'>
-              {node}
-            </div>
-          )
-        }
-      }).$mount();
     }
   },
 };
@@ -89,18 +65,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

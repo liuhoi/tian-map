@@ -10,7 +10,7 @@
         <template #marker>
           <div style="color:red;">asdfas</div>
         </template>
-        <template #default="markerNum">
+        <template #default="{markerNum}">
           <div style="color:yellow;" class="html">
             点{{markerNum}}
           </div>
