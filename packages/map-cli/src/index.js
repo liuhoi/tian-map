@@ -18,7 +18,7 @@ program
 
 program
   .command('build')
-  .description('Run webpack dev server')
+  .description('Compile packages')
   .action(build);
 
 

@@ -26,6 +26,7 @@
     "chalk": "^4.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "commander": "^6.1.0",
+    "consola": "^2.15.3",
     "css-loader": "^5.0.1",
     "figlet": "^1.5.0",
     "fs-extra": "^9.0.1",
@@ -51,7 +52,7 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "vue": "^2.6.12",
-    "vue-template-compiler": "^2.6.12"
+    "vue": "^2.6.14",
+    "vue-template-compiler": "^2.6.14"
   }
 }
