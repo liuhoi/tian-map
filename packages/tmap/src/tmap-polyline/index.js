@@ -5,3 +5,4 @@ tmapPolyline.install = function(Vue) {
 };
 
 export default tmapPolyline;
+export  {tmapPolyline};

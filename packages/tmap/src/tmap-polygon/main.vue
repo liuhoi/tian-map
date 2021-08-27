@@ -1,7 +1,4 @@
 <script>
-import Vue from 'vue';
-import CONSTANTS from '@/libs/config/constant'
-
 export default {
   name: "tmapPolygon",
   inject: {

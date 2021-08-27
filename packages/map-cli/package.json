@@ -33,7 +33,7 @@
     "html-webpack-plugin": "^4.5.0",
     "less": "^3.12.2",
     "less-loader": "^7.1.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "ora": "^5.1.0",
     "portfinder": "^1.0.28",
     "postcss": "^8.1.7",

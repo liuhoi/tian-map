@@ -1,5 +1,5 @@
 import {LngLat} from './apiAdaper'
-import {vmFactory} from '../../utils/vmFactory'
+import {vmFactory} from '../../vmFactory'
 
 class Marker {
   constructor(){

@@ -2,7 +2,9 @@
   "name": "vue-tmap",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "style": "lib/index.css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "map-cli dev",

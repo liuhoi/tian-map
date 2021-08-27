@@ -5,3 +5,4 @@ tmapInfoWindow.install = function(Vue) {
 };
 
 export default tmapInfoWindow;
+export  {tmapInfoWindow};

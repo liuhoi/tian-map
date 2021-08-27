@@ -5,3 +5,4 @@ tmapMarker.install = function(Vue) {
 };
 
 export default tmapMarker;
+export  {tmapMarker};

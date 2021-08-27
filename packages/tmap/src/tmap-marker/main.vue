@@ -1,6 +1,5 @@
 <script>
-import Vue from 'vue';
-import {ProxyMarker} from '@/libs/overlay/mapOverlayT'
+import {ProxyMarker} from '@/utils/overlay/mapOverlayT'
 
 export default {
   name: "tmapMarker",

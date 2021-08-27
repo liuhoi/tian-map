@@ -5,3 +5,4 @@ tmapCluster.install = function(Vue) {
 };
 
 export default tmapCluster;
+export  {tmapCluster};

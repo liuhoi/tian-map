@@ -5,3 +5,4 @@ tmapPolygon.install = function(Vue) {
 };
 
 export default tmapPolygon;
+export  {tmapPolygon};

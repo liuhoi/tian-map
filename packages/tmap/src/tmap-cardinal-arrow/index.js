@@ -5,3 +5,4 @@ tmapCardinalArrow.install = function(Vue) {
 };
 
 export default tmapCardinalArrow;
+export  {tmapCardinalArrow};

@@ -1,10 +1,10 @@
-import tmap from '@/packages/tmap';
-import tmapCardinalArrow from '@/packages/tmap-cardinal-arrow';
-import tmapInfoWindow from '@/packages/tmap-info-window';
-import tmapMarker from '@/packages/tmap-marker';
-import tmapPolygon from '@/packages/tmap-polygon';
-import tmapPolyline from '@/packages/tmap-polyline';
-import tmapCluster from '@/packages/tmap-cluster';
+import tmap from '@/tmap';
+import tmapCardinalArrow from '@/tmap-cardinal-arrow';
+import tmapInfoWindow from '@/tmap-info-window';
+import tmapMarker from '@/tmap-marker';
+import tmapPolygon from '@/tmap-polygon';
+import tmapPolyline from '@/tmap-polyline';
+import tmapCluster from '@/tmap-cluster';
 
 
 const components = [
@@ -38,5 +38,4 @@ export default {
   tmapPolygon,
   tmapPolyline,
   tmapCluster
-
 };

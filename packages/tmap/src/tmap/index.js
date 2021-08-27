@@ -5,3 +5,4 @@ tmap.install = function(Vue) {
 };
 
 export default tmap;
+export  {tmap};
