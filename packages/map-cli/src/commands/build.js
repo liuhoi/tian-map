@@ -7,6 +7,7 @@ const {copy} = require('fs-extra')
 const {join,relative} = require('path')
 
 const {genPackageEntry} = require('../compiler/gen-package-entry')
+const {genPackageStyle} = require('../compiler/gen-package-style')
 
 const { CSS_LANG } =  require('../common/css');
 

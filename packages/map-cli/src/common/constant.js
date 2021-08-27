@@ -32,6 +32,7 @@ exports.SITE_DIST_DIR = join(exports.ROOT, 'site')
 exports.VANT_CONFIG_FILE = join(exports.ROOT, 'hoi.config.js')
 
 
+
 function getSrcDir() {
 
   return join(exports.ROOT, 'src');
@@ -46,5 +47,7 @@ function getHoiConfig() {
 }
 
 exports.SRC_DIR = getSrcDir()
+
+exports.STYLE_DIR =  join(exports.SRC_DIR, 'style')
 
 exports.getHoiConfig = getHoiConfig
