@@ -1,15 +1,64 @@
-const {setNodeEnv} = require('../common')
+const {remove, copy, readdirSync, existsSync} = require('fs-extra')
+const {join,relative} = require('path')
+
 const {clean} = require('./clean')
+
+const {
+  setNodeEnv,
+  setModuleEnv,
+  setBuildTarget,
+  isDir,
+  isDemoDir,
+  isTestDir,
+  isAsset,
+  isSfc,
+  isStyle,
+  isScript
+} = require('../common')
 const {installDependencies} = require('../common/manager')
 const {consola,ora} = require('../common/logger')
 const { SRC_DIR, LIB_DIR, ES_DIR } =require('../common/constant');
-const {copy} = require('fs-extra')
-const {join,relative} = require('path')
+const { CSS_LANG } =  require('../common/css');
 
 const {genPackageEntry} = require('../compiler/gen-package-entry')
 const {genPackageStyle} = require('../compiler/gen-package-style')
 
-const { CSS_LANG } =  require('../common/css');
+const compileFile = async (filePath) => {
+  if (isSfc(filePath)) {
+    return compileSfc(filePath);
+  }
+
+  if (isScript(filePath)) {
+    return compileJs(filePath);
+  }
+
+  if (isStyle(filePath)) {
+    return compileStyle(filePath);
+  }
+
+  if (isAsset(filePath)) {
+    return Promise.resolve();
+  }
+
+  return remove(filePath)
+}
+
+const compileDir = async (dir)=>{
+  const files = readdirSync(dir);
+  await Promise.all(
+    files.map(filename => {
+      const filePath = join(dir,filename)
+      if(isDemoDir(filePath) || isTestDir(filePath)){
+        return remove(filePath)
+      }
+      if(isDir(filePath)){
+        return compileDir(filePath)
+      }
+      return compileFile(filePath)
+    })
+  )
+}
+
 
 const copySourceCode = async () => {
   await copy(SRC_DIR, ES_DIR);
@@ -28,6 +77,11 @@ const buildPackageScriptEntry = async ()=>{
   await copy(esEntryFile, libEntryFile);
 }
 
+const buildStyleEntry = async ()=>{
+  
+}
+
+
 const buildPackageStyleEntry = async ()=>{
   const styleEntryFile = join(LIB_DIR, `index.${CSS_LANG}`);
 
@@ -37,18 +91,18 @@ const buildPackageStyleEntry = async ()=>{
   });
 }
 
-const buildStyleEntry = async ()=>{
-  
-}
 
 
 
 const buildTypeDeclarations = async ()=>{
-  
+  await genStyleDepsMap();
+  genComponentStyle();
 }
 
 const buildESMOutputs = async ()=>{
-  
+  setModuleEnv('esmodule');
+  setBuildTarget('package');
+  await compileDir(ES_DIR);
 }
 
 const buildCJSOutputs = async ()=>{

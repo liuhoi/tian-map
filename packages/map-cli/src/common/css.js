@@ -2,9 +2,9 @@ const {get} = require('lodash')
 
 const {getHoiConfig} = require('../common')
 
-import { join, isAbsolute } from 'path';
+const { join, isAbsolute } = require( 'path');
 
-import { STYLE_DIR, SRC_DIR } from './constant';
+const { STYLE_DIR, SRC_DIR } = require('./constant') ;
 
 function getCssLang() {
   const hoiConfig = getHoiConfig();
