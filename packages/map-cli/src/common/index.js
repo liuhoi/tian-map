@@ -53,15 +53,15 @@ const setBuildTarget = (value)=>{
   process.env.BUILD_TARGET = value;
 }
 
-const isDir = ()=>{
+const isDir = (dir)=>{
   return lstatSync(dir).isDirectory()
 }
 
-const isDemoDir = ()=>{
+const isDemoDir = (dir)=>{
   return DEMO_REGEXP.test(dir);
 }
 
-const isTestDir = ()=>{
+const isTestDir = (dir)=>{
   return TEST_REGEXP.test(dir);
 }
 

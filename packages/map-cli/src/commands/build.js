@@ -23,6 +23,10 @@ const { CSS_LANG } =  require('../common/css');
 const {genPackageEntry} = require('../compiler/gen-package-entry')
 const {genPackageStyle} = require('../compiler/gen-package-style')
 
+const {compileSfc} = require('../compiler/compile-sfc')
+const {compileJs} = require('../compiler/compile-js')
+const {compileStyle} = require('../compiler/compile-style')
+
 const compileFile = async (filePath) => {
   if (isSfc(filePath)) {
     return compileSfc(filePath);
@@ -95,8 +99,7 @@ const buildPackageStyleEntry = async ()=>{
 
 
 const buildTypeDeclarations = async ()=>{
-  await genStyleDepsMap();
-  genComponentStyle();
+  
 }
 
 const buildESMOutputs = async ()=>{
