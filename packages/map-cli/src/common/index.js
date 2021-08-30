@@ -81,6 +81,9 @@ const isScript = (path)  =>  {
   return SCRIPT_REGEXP.test(path);
 }
 
+const replaceExt = (path,ext)=>{
+  return path.replace(EXT_REGEXP, ext);
+} 
 
 exports.ENTRY_EXTS = ENTRY_EXTS;
 
@@ -128,3 +131,4 @@ exports.isAsset = isAsset
 exports.isSfc = isSfc
 exports.isStyle = isStyle
 exports.isScript = isScript
+exports.replaceExt = replaceExt
