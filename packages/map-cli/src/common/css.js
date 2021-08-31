@@ -1,5 +1,7 @@
 const {get} = require('lodash')
 
+const { existsSync } = require( 'fs-extra');
+
 const {getHoiConfig} = require('../common')
 
 const { join, isAbsolute } = require( 'path');
@@ -38,3 +40,13 @@ const getCssBaseFile = ()=>{
 exports.CSS_LANG = CSS_LANG
 
 exports.getCssBaseFile = getCssBaseFile
+
+const IMPORT_STYLE_RE = /import\s+?(?:(?:".*?")|(?:'.*?'))[\s]*?(?:;|$|)/g;
+// "import 'a.less';" => "import 'a.css';"
+const replaceCssImportExt = (code) => {
+  return code.replace(IMPORT_STYLE_RE, (str) =>
+    str.replace(`.${CSS_LANG}`, '.css')
+  );
+}
+
+exports.replaceCssImportExt = replaceCssImportExt

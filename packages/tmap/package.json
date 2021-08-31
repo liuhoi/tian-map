@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",
-  "style": "lib/index.css",
+  "style": "lib/main-sfc.css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "map-cli dev",

@@ -27,6 +27,11 @@ const {compileSfc} = require('../compiler/compile-sfc')
 const {compileJs} = require('../compiler/compile-js')
 const {compileStyle} = require('../compiler/compile-style')
 
+const {genStyleDepsMap} = require('../compiler/gen-style-deps-map')
+const {genComponentStyle} = require('../compiler/gen-component-style')
+
+const {compilePackage} =  require('../compiler/compile-package')
+
 const compileFile = async (filePath) => {
   if (isSfc(filePath)) {
     return compileSfc(filePath);
@@ -82,9 +87,9 @@ const buildPackageScriptEntry = async ()=>{
 }
 
 const buildStyleEntry = async ()=>{
-  
+  await genStyleDepsMap();
+  genComponentStyle();
 }
-
 
 const buildPackageStyleEntry = async ()=>{
   const styleEntryFile = join(LIB_DIR, `index.${CSS_LANG}`);
@@ -94,9 +99,6 @@ const buildPackageStyleEntry = async ()=>{
     pathResolver: (path) => path.replace(SRC_DIR, '.'),
   });
 }
-
-
-
 
 const buildTypeDeclarations = async ()=>{
   
@@ -109,11 +111,15 @@ const buildESMOutputs = async ()=>{
 }
 
 const buildCJSOutputs = async ()=>{
-  
+  setModuleEnv('commonjs');
+  setBuildTarget('package');
+  await compileDir(LIB_DIR);
 }
 
 const buildBundledOutputs = async ()=>{
-  
+  setModuleEnv('esmodule');
+  await compilePackage(false);
+  await compilePackage(true);
 }
 
 

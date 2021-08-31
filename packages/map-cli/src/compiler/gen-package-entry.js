@@ -1,18 +1,15 @@
+const { get } = require('lodash');
+const { join } = require( 'path');
 const {
-  lstatSync,
-  existsSync,
-  readdirSync,
-  readFileSync,
-  outputFileSync,
-} = require('fs-extra')
+  pascalize,
+  getComponents,
+  smartOutputFile,
+  normalizePath,
+} = require( '../common');
+const { SRC_DIR, getPackageJson, getHoiConfig } = require( '../common/constant');
 
-const {join} =require('path')
 
-const {SRC_DIR} = require('../common/constant')
-
-const {getComponents,pascalize,smartOutputFile,normalizePath} = require('../common')
-
-const getPathByName = (name,pathResolver)=>{
+function getPathByName(name, pathResolver) {
   let path = join(SRC_DIR, name);
   if (pathResolver) {
     path = pathResolver(path);
@@ -20,79 +17,91 @@ const getPathByName = (name,pathResolver)=>{
   return normalizePath(path);
 }
 
-const genImports = (
-  names, 
-  pathResolver, 
+function genImports(
+  names,
+  pathResolver,
   namedExport
-)=>{
+) {
   return names
-  .map((name) => {
-    const pascalName = pascalize(name);
-    const importName = namedExport ? `{ ${pascalName} }` : pascalName;
-    const importPath = getPathByName(name, pathResolver);
+    .map((name) => {
+      const pascalName = pascalize(name);
+      const importName = namedExport ? `{ ${pascalName} }` : pascalName;
+      const importPath = getPathByName(name, pathResolver);
 
-    return `import ${importName} from '${importPath}';`;
-  })
-  .join('\n');
+      return `import ${importName} from '${importPath}';`;
+    })
+    .join('\n');
 }
 
-const genExports = (
-  names, 
-  pathResolver, 
+function genExports(
+  names,
+  pathResolver,
   namedExport
-)=>{
+) {
   if (namedExport) {
     const exports = names
       .map((name) => `export * from '${getPathByName(name, pathResolver)}';`)
       .join('\n');
 
     return `
-      export {
-        install,
-        version,
-      };
-      ${exports}
-    `;
+  export {
+    install,
+    version,
+  };
+  ${exports}
+`;
   }
 
   return `
-    export {
-      install,
-      version,
-      ${names.map(pascalize).join(',\n  ')}
-    };
+  export {
+    install,
+    version,
+    ${names.map(pascalize).join(',\n  ')}
+  };
   `;
 }
 
-const genPackageEntry = ({
+function genPackageEntry({
   outputPath,
   pathResolver,
-})=>{
+}) {
   const names = getComponents();
-  const components = names.map(pascalize); 
-  const version = '0.0.1'
-  const content = `
+  const vantConfig = getHoiConfig();
 
-    ${genImports(names, pathResolver, true)}
+  const namedExport = get(vantConfig, 'build.namedExport', false);
+  const skipInstall = get(vantConfig, 'build.skipInstall', []).map(pascalize);
 
-    const version = '${version}'
-    const install = function(Vue, opts = {}) {
-      const components = [
-        ${components.join(',')}
-      ];
-      components.forEach(component => {
-        Vue.component(component.name, component);
-      });
-    };
+  const version = process.env.PACKAGE_VERSION || getPackageJson().version;
 
-    ${genExports(names, pathResolver, true)}
+  const components = names.map(pascalize);
+  const content = `${genImports(names, pathResolver, namedExport)}
 
-    export default {
-      install,
-      version
-    };  
-  `;
+const version = '${version}';
+
+function install(app) {
+  const components = [
+    ${components.filter((item) => !skipInstall.includes(item)).join(',\n    ')}
+  ];
+
+  components.forEach(item => {
+    if (item.install) {
+      app.use(item);
+    } else if (item.name) {
+      app.component(item.name, item);
+    }
+  });
+}
+
+${genExports(names, pathResolver, namedExport)}
+
+export default {
+  install,
+  version
+};
+`;
+
   smartOutputFile(outputPath, content);
 }
+
 
 exports.genPackageEntry = genPackageEntry

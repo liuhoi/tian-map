@@ -7,7 +7,7 @@ const {
 } = require('fs-extra');
 const {join,sep} = require('path')
 
-const {SRC_DIR,getHoiConfig} = require('./constant')
+const {SRC_DIR,getHoiConfig,ROOT_WEBPACK_CONFIG_FILE} = require('./constant')
 
 const ENTRY_EXTS = ['js', 'ts', 'tsx', 'jsx', 'vue'];
 
@@ -85,6 +85,28 @@ const replaceExt = (path,ext)=>{
   return path.replace(EXT_REGEXP, ext);
 } 
 
+
+const getWebpackConfig = function (defaultConfig) {
+  if (existsSync(ROOT_WEBPACK_CONFIG_FILE)) {
+    const config = require(ROOT_WEBPACK_CONFIG_FILE);
+    const customMerge = mergeWithCustomize({
+      customizeArray(arr1, arr2) {
+        return _.uniqWith([...arr1, ...arr2], _.isEqual);
+      }
+    })
+
+    // 如果是函数形式，可能并不仅仅是添加额外的处理流程，而是在原有流程上进行修改
+    // 比如修改markdown-loader,添加options.enableMetaData
+    if (typeof config === 'function') {
+      return customMerge(defaultConfig, config(defaultConfig));
+    }
+
+    return customMerge(defaultConfig, config);
+  }
+
+  return defaultConfig;
+}
+
 exports.ENTRY_EXTS = ENTRY_EXTS;
 
 exports.smartOutputFile = (filePath,content)=>{
@@ -132,3 +154,5 @@ exports.isSfc = isSfc
 exports.isStyle = isStyle
 exports.isScript = isScript
 exports.replaceExt = replaceExt
+
+exports.getWebpackConfig = getWebpackConfig
