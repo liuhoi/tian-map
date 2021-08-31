@@ -1,5 +1,5 @@
 {
-  "name": "map-cli",
+  "name": "@hoi/map-cli",
   "version": "1.0.3",
   "description": "",
   "main": "src/index.js",
@@ -8,6 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +47,7 @@
     "postcss": "^8.1.7",
     "postcss-load-config": "^3.1.0",
     "postcss-loader": "^4.0.4",
+    "release-it": "^14.11.5",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",

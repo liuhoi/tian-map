@@ -4,6 +4,7 @@ const version = require('../package.json').version
 const dev = require('./commands/dev')
 const build = require('./commands/build')
 const buildSite = require('./commands/build-site')
+const release = require('./commands/release')
 
 program.version(version)
 
@@ -20,6 +21,10 @@ program
   .command('build')
   .description('Compile packages')
   .action(build);
+program
+  .command('release')
+  .description('Compile components and release it')
+  .action(release);
 
 
 program.parse(process.argv)
