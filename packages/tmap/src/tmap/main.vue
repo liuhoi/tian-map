@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Emitter from '@/utils/mixins/emitter'
-import CONSTANTS from '@/utils/config/constant'
-import loadTmapApi from '@/utils/initializer'
-import promiseLazyFactory from '@/utils/promise-lazy'
+import Emitter from '../utils/mixins/emitter'
+import CONSTANTS from '../utils/config/constant'
+import loadTmapApi from '../utils/initializer'
+import promiseLazyFactory from '../utils/promise-lazy'
 
-import config from '@/utils/config/map';
+import config from '../utils/config/map';
 
 const promiseLazyCreator  = promiseLazyFactory(loadTmapApi)
 const tmapApiPromiseLazy = promiseLazyCreator({

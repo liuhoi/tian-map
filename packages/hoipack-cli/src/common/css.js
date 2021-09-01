@@ -2,7 +2,7 @@ const {get} = require('lodash')
 
 const { existsSync } = require( 'fs-extra');
 
-const {getHoiConfig} = require('../common')
+const {getHoiConfig} = require('.')
 
 const { join, isAbsolute } = require( 'path');
 

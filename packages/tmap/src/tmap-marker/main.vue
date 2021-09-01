@@ -1,5 +1,5 @@
 <script>
-import {ProxyMarker} from '@/utils/overlay/mapOverlayT'
+import {ProxyMarker} from '../utils/overlay/mapOverlayT'
 
 export default {
   name: "tmapMarker",

@@ -1,10 +1,10 @@
 {
-  "name": "@hoi/map-cli",
+  "name": "@liuhoi/hoipack-cli",
   "version": "1.0.3",
   "description": "",
   "main": "src/index.js",
   "bin": {
-    "map-cli": "./src/index.js"
+    "hoipack-cli": "./src/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

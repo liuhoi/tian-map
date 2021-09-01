@@ -10,12 +10,12 @@ const compileJs = (filePath) => {
 
     code = replaceCssImportExt(code);
     code = replaceScriptImportExt(code, '.vue', '');
-
+   
+   
     transformAsync(code, { filename: filePath })
       .then((result) => {
         if (result) {
           const jsFilePath = replaceExt(filePath, '.js');
-
           removeSync(filePath);
           outputFileSync(jsFilePath, result.code);
           resolve();

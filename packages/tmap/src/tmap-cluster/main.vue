@@ -1,6 +1,6 @@
 <script>
-import { MarkerClusterer } from "@/utils//MarkerClusterer";
-import { ProxyCluster } from "@/utils//overlay/mapOverlayT";
+import { MarkerClusterer } from "../utils//MarkerClusterer";
+import { ProxyCluster } from "../utils//overlay/mapOverlayT";
 export default {
   name: "tmapCluster",
   inject: {

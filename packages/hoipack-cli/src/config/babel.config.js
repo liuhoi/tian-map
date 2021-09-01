@@ -16,6 +16,12 @@ module.exports = function (api, options = {}) {
           loose: options.loose,
         },
       ],
+      [
+        '@vue/babel-preset-jsx',
+        {
+          functional: false,
+        },
+      ],
       // require.resolve('@babel/preset-typescript'),
       // require('../compiler/babel-preset-vue-ts'),
     ],
@@ -29,12 +35,18 @@ module.exports = function (api, options = {}) {
         },
         'tmap',
       ],
+      // [
+      //   require.resolve('@vue/babel-plugin-jsx'),
+      //   {
+      //     enableObjectSlots: options.enableObjectSlots,
+      //   },
+      // ],
       [
-        require.resolve('@vue/babel-plugin-jsx'),
+        require.resolve('@babel/plugin-transform-runtime'),
         {
-          enableObjectSlots: options.enableObjectSlots,
-        },
-      ],
+          corejs:3
+        }
+      ]
     ],
   };
 };
