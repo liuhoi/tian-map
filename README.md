@@ -1,7 +1,5 @@
-# vue-tmap
+# tian-map
 
-## lerna bootstrap -- hoist
-
-## cd tmap
+## cd vue-tmap  ||  cd react-tmap
 
 ## npm run dev

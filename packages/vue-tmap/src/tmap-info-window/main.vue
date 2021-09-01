@@ -1,6 +1,5 @@
 <script>
-import Vue from 'vue';
-import infoWindowOverlayCreator from '../utils/overlay/infoWindowOverlay'
+import {ProxyInfoWindow} from '../utils/overlay/mapOverlayT'
 
 export default {
   name: "tmapInfoWindow",
@@ -20,25 +19,26 @@ export default {
   },
   watch:{
     visible(val){
+      console.log(val)
       if(val){
-        this.addOverLay()
+        this.$tmapComponent.show()
       }else{
-        this.removeOverlay()
+        this.$tmapComponent.hide()
       }
      
     },
     data:{
       deep:true,
       handler(val){
-        if(!this.visible){
-          return 
-        }
-        if(this.$tmapComponent){
-          this.removeOverlay()
-          this.addOverLay()
-        }else{
-          this.addOverLay()
-        }
+        // if(!this.visible){
+        //   return 
+        // }
+        // if(this.$tmapComponent){
+        //   this.removeOverlay()
+        //   this.addOverLay()
+        // }else{
+        //   this.addOverLay()
+        // }
         
       }
     }
@@ -47,60 +47,41 @@ export default {
     return {
       $tmap:null,
       $tmapComponent:null,
-      $mapApi : null,
-      $overlayCreator:null
+      $mapApi : null
     }
   },
   created(){
-    this.tmpVM = new Vue({
-      data() {
-        return {node: ''};
-      },
-      render(h) {
-        const {node} = this;
-        return (
-          <div ref='node'>
-            {node}
-          </div>
-        )
-      }
-    }).$mount();
+    
   },
   render(){
-    const slot = this.$scopedSlots.default();
-    if(slot && slot.length){
-      this.tmpVM.node = slot;
-    }
     return null
   },
   mounted(){
     this.$tmapPromiseLazy.then(({map,mapApi}) => {
       this.$tmap = map;
       this.$mapApi = mapApi;
-      this.$overlayCreator = infoWindowOverlayCreator(mapApi);
+      this.initComponent();
+      if(this.visible){
+        this.$tmapComponent.show()
+      }else{
+        this.$tmapComponent.hide()
+      }
     })
-    // this.$on(CONSTANTS.TMAP_READY_EVENT,(map,mapApi)=>{ 
-    //   this.$tmap = map;
-    //   this.$mapApi = mapApi;
-    //   this.$overlayCreator = infoWindowOverlayCreator(mapApi);
-    // })
   },
   
   destroyed() {
     this.removeOverlay();
-    this.tmpVM.$destroy();
   },
   methods:{
-    initComponent(map,mapApi) {
-      let {$overlayCreator} = this;
-      this.$tmapComponent = new $overlayCreator( this.tmpVM.$refs.node,{
-        lngLat:this.position,
-        data:this.data,
-      });
-      this.$tmap.addOverLay(this.$tmapComponent)
+    initComponent() {
+      this.$tmapComponent = this.initMarker();
+      this.$tmap.addOverLay(this.$tmapComponent);
     },
-    addOverLay(){
-      this.initComponent(this.$tmap,this.$mapApi);
+    initMarker(){
+      return new ProxyInfoWindow( this.$scopedSlots.default,{
+        position:this.position,
+        keyData:this.data
+      })
     },
     removeOverlay(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)

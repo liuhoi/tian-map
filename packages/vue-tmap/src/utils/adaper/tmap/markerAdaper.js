@@ -8,6 +8,7 @@ class Marker {
   _initialize (html,options) {
     this.Vue = vmFactory(html,options)
     this.html = this.Vue.$el;
+    this.keyData = options.keyData || {}
     this.lnglat = new LngLat(...options.position);
   }
   _onAdd (map) {
@@ -30,6 +31,12 @@ class Marker {
     var pos = this.map.lngLatToLayerPoint(this.lnglat);
     this.html.style.top =  pos.y  + "px";
     this.html.style.left = pos.x  + "px";
+  }
+  _clickMarker(){
+    return {
+      keyData:this.keyData,
+      lnglat:this.lnglat
+    }
   }
   extendMethods(){
     return {}

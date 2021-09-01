@@ -7,8 +7,8 @@
         </template>
       </tmap-marker> -->
       <tmap-cluster :markers="markers">
-        <template #marker>
-          <div style="color:red;">asdfas</div>
+        <template #marker="marker">
+          <div style="color:red;" @click="clickMarker(marker)">asdfas</div>
         </template>
         <template #default="{markerNum}">
           <div style="color:yellow;" class="html">
@@ -16,6 +16,10 @@
           </div>
         </template>
       </tmap-cluster>
+      <tmap-info-window :position="infoWindow.position" :data="infoWindow.data" :visible="infoWindow.visible">
+        <div>asdfasasafsdasdfas</div>
+      </tmap-info-window>
+
    </tmap>
   </div>
 </template>
@@ -26,7 +30,12 @@
     name: 'app',
     data () {
       return {
-        markers:[]
+        markers:[],
+        infoWindow:{
+          position:[],
+          data:{},
+          visible:false
+        }
       }
     },
     mounted () {
@@ -40,7 +49,11 @@
         })
       }
     },
-    components: {
+    methods: {
+      clickMarker(marker){
+        this.infoWindow.visible = true
+        console.log(marker)
+      }
     }
   }
 </script>

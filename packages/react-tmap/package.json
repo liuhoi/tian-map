@@ -1,0 +1,42 @@
+{
+  "name": "@liuhoi/react-tmap",
+  "version": "1.0.100",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "style": "lib/main-sfc.css",
+  "scripts": {
+    "dev": "hoipack-cli dev",
+    "build": "hoipack-cli build",
+    "build:site": "hoipack-cli build-site",
+    "release": "hoipack-cli release --tag next"
+  },
+  "author": "liuhui",
+  "license": "MIT",
+  "files": [
+    "es",
+    "lib",
+    "babel.config.js",
+    "hoi.config.js"
+  ],
+  "npm": {
+    "tag": "next"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:liuhoi/vue-tmap.git"
+  },
+  "keywords": [
+    "react",
+    "tian-map"
+  ],
+  "unpkg": "lib/tmap.min.js",
+  "jsdelivr": "lib/tmap.min.js",
+  "dependencies": {
+    "@liuhoi/hoipack-cli": "^1.0.3"
+  }
+}

@@ -129,9 +129,7 @@ export class Cluster {
     this._clusterMarker = markerClusterer.clusterMarker()
     let clusterMarker = this._clusterMarker.getElement();
     clusterMarker.addEventListener('click', (event) => {
-      
       let thatBounds = this.getBounds();
-      console.log(thatBounds)
       this._map.setViewport([thatBounds.getSouthWest(),thatBounds.getNorthEast()]);
     });
   }
