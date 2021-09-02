@@ -15,8 +15,11 @@ class InfoWindow extends Marker{
   _onRemove () {
     let infoWindowPane = this.map.getPanes().infoWindowPane;
     if (infoWindowPane) {
+      if(infoWindowPane.contains(this.html)){
+        infoWindowPane.removeChild(this.html);
+      }
       // this.Vue.$destroy();
-      infoWindowPane.removeChild(this.html);
+     
       // this.map = null;
       // this.html = null;
     }
@@ -25,16 +28,23 @@ class InfoWindow extends Marker{
     return {
       hide:this.hide,
       show:this.show,
+      setLngLat:this.setLngLat
     }
   }
   hide(){
     this.onRemove()
   }
-  show(){
+  show(lnglat){
     let infoWindowPane = this.map.getPanes().infoWindowPane;
     if (infoWindowPane) {
       infoWindowPane.appendChild(this.html);
+      
+      this.setLngLat(lnglat)
     }
+  }
+  setLngLat(lnglat){
+    this.lnglat = new LngLat(...lnglat)
+    this.update()
   }
 }
 

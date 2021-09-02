@@ -1,11 +1,12 @@
 <script>
+import {LngLat} from '../utils/apiAdaper'
 export default {
   name: "tmapPolygon",
   inject: {
     $tmapPromiseLazy: { default: '' }
   },
   props: {
-    polygon: {
+    points: {
       type:Array,
       default:()=>[]
     },
@@ -20,23 +21,11 @@ export default {
     }
   },
   watch:{
-    polygon:{
+    points:{
       deep:true,
-      handler(val){
-        if(val.length){
-          if(this.$tmap && this.$mapApi){
-            this.addPolygon();
-          }else{
-            this.$tmapPromiseLazy.then(({map,mapApi}) => {
-              this.$tmap = map;
-              this.$mapApi = mapApi;
-              this.addPolygon();
-            })
-          }
-          
-          
-        }
-        
+      async handler(val){
+        await this.$tmapPromiseLazy;
+        this.initComponent();
       }
     }
   },
@@ -68,19 +57,19 @@ export default {
   },
   
   destroyed() {
-    this.removeaddPolygon();
+    this.removePolygon();
   },
   methods:{
     initComponent() {
-      this.removeaddPolygon();
-      let {$tmap,$mapApi,polygon} = this;
-      this.$tmapComponent = new $mapApi.Polygon(polygon,this.mergeConfig);
+      this.removePolygon();
+      let {$tmap,$mapApi,points} = this;
+      let lnglats = points.map(point => {
+        return new LngLat(...point)
+      })
+      this.$tmapComponent = new $mapApi.Polygon(lnglats,this.mergeConfig);
       $tmap.addOverLay(this.$tmapComponent);
     },
-    addPolygon(){
-      this.initComponent();
-    },
-    removeaddPolygon(){
+    removePolygon(){
       this.$tmapComponent && this.$tmap.removeLayer(this.$tmapComponent)
       this.$tmapComponent = null;
     },
@@ -90,18 +79,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

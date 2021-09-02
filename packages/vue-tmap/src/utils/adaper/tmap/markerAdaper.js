@@ -8,7 +8,6 @@ class Marker {
   _initialize (html,options) {
     this.Vue = vmFactory(html,options)
     this.html = this.Vue.$el;
-    this.keyData = options.keyData || {}
     this.lnglat = new LngLat(...options.position);
   }
   _onAdd (map) {
@@ -21,22 +20,18 @@ class Marker {
   _onRemove () {
     let markerPane = this.map.getPanes().markerPane;
     if (markerPane) {
+      if(markerPane.contains(this.html)){
+        markerPane.removeChild(this.html);
+      }
       // this.Vue.$destroy();
-      markerPane.removeChild(this.html);
       // this.map = null;
       // this.html = null;
     }
   }
   _update () {
-    var pos = this.map.lngLatToLayerPoint(this.lnglat);
+    let pos = this.map.lngLatToLayerPoint(this.lnglat);
     this.html.style.top =  pos.y  + "px";
     this.html.style.left = pos.x  + "px";
-  }
-  _clickMarker(){
-    return {
-      keyData:this.keyData,
-      lnglat:this.lnglat
-    }
   }
   extendMethods(){
     return {}

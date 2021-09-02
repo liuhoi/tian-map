@@ -1,4 +1,6 @@
 <script>
+import {LngLat} from '../utils/apiAdaper'
+
 export default {
   name: "tmapCardinalArrow",
   inject: {
@@ -22,21 +24,9 @@ export default {
   watch:{
     points:{
       deep:true,
-      handler(val){
-        if(val.length){
-          if(this.$tmap && this.$mapApi){
-            this.addPoints();
-          }else{
-            this.$tmapPromiseLazy.then(({map,mapApi}) => {
-              this.$tmap = map;
-              this.$mapApi = mapApi;
-              this.addPoints();
-            })
-          }
-
-
-        }
-
+      async handler(val){
+        await this.$tmapPromiseLazy;
+        this.addPoints();
       }
     }
   },
@@ -74,8 +64,10 @@ export default {
     initComponent() {
       this.removeaddPoints();
       let {$tmap,$mapApi,points} = this;
-      this.$tmapComponent = new $mapApi.CardinalCurveArrow(points,this.mergeConfig);
-      console.log(this.$tmapComponent)
+      let lnglats = points.map(point => {
+        return new LngLat(...point)
+      })
+      this.$tmapComponent = new $mapApi.CardinalCurveArrow(lnglats,this.mergeConfig);
       $tmap.addOverLay(this.$tmapComponent);
     },
     addPoints(){
@@ -91,18 +83,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

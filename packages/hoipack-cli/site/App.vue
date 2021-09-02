@@ -1,24 +1,29 @@
 <template>
   <div>
    <tmap ref="map">
-      <!-- <tmap-marker v-for="(marker,index) in markers" :key="index" :marker="marker">
-        <template #default="{markerNum}">
-          <div style="color:red;">点{{markerNum}}</div>
+      <tmap-marker v-for="(marker,index) in markers" :key="index" :marker="marker">
+        <template #default="marker">
+          <div style="color:red;" @click="clickMarker(marker)">点{{marker.name}}</div>
         </template>
-      </tmap-marker> -->
-      <tmap-cluster :markers="markers">
+      </tmap-marker>
+      <!-- <tmap-cluster :markers="markers">
         <template #marker="marker">
           <div style="color:red;" @click="clickMarker(marker)">asdfas</div>
         </template>
         <template #default="{markerNum}">
-          <div style="color:yellow;" class="html">
+          <div style="color:yellow;">
             点{{markerNum}}
           </div>
         </template>
-      </tmap-cluster>
+      </tmap-cluster> -->
       <tmap-info-window :position="infoWindow.position" :data="infoWindow.data" :visible="infoWindow.visible">
-        <div>asdfasasafsdasdfas</div>
+        <div style="color:yellow;">{{infoWindow.data}}</div>
       </tmap-info-window>
+      
+      <tmap-cardinal-arrow :points="markers.map(v =>v.position)" />
+      <tmap-polygon :points="markers.map(v =>v.position)" />
+      <tmap-polyline :points="markers.map(v =>v.position)" />
+
 
    </tmap>
   </div>
@@ -45,14 +50,18 @@
         var point = [lng, lat];
         this.markers.push({
           position:point,
-          data:{}
+          keyData:{
+            name:1123213
+          },
         })
       }
     },
     methods: {
       clickMarker(marker){
-        this.infoWindow.visible = true
         console.log(marker)
+        this.infoWindow.position = marker.position
+        this.infoWindow.data = marker.keyData
+        this.infoWindow.visible = !this.infoWindow.visible;
       }
     }
   }

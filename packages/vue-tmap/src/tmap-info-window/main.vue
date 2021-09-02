@@ -1,5 +1,5 @@
 <script>
-import {ProxyInfoWindow} from '../utils/overlay/mapOverlayT'
+import {ProxyInfoWindow} from '../utils/overlay/mapOverlay'
 
 export default {
   name: "tmapInfoWindow",
@@ -19,9 +19,8 @@ export default {
   },
   watch:{
     visible(val){
-      console.log(val)
       if(val){
-        this.$tmapComponent.show()
+        this.$tmapComponent.show(this.position)  
       }else{
         this.$tmapComponent.hide()
       }
@@ -30,15 +29,13 @@ export default {
     data:{
       deep:true,
       handler(val){
-        // if(!this.visible){
-        //   return 
-        // }
-        // if(this.$tmapComponent){
-        //   this.removeOverlay()
-        //   this.addOverLay()
-        // }else{
-        //   this.addOverLay()
-        // }
+        console.log(val)
+        if(!this.visible){
+          return
+        }
+        this.$tmapComponent.hide()
+        this.$tmapComponent.show(this.position,val)
+        
         
       }
     }
@@ -61,11 +58,7 @@ export default {
       this.$tmap = map;
       this.$mapApi = mapApi;
       this.initComponent();
-      if(this.visible){
-        this.$tmapComponent.show()
-      }else{
-        this.$tmapComponent.hide()
-      }
+      
     })
   },
   
@@ -76,11 +69,13 @@ export default {
     initComponent() {
       this.$tmapComponent = this.initMarker();
       this.$tmap.addOverLay(this.$tmapComponent);
+      this.$tmapComponent.hide()
     },
     initMarker(){
       return new ProxyInfoWindow( this.$scopedSlots.default,{
         position:this.position,
-        keyData:this.data
+        keyData:this.data,
+        type:'infoWindow'
       })
     },
     removeOverlay(){
