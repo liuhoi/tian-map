@@ -8,7 +8,8 @@ class Marker {
   _initialize (html,options) {
     this.Vue = vmFactory(html,options)
     this.html = this.Vue.$el;
-    this.lnglat = new LngLat(...options.position);
+    let lnglat = options.position;
+    this.lnglat = lnglat instanceof T.dq ? lnglat: new LngLat(...lnglat);
   }
   _onAdd (map) {
     this.map = map;
@@ -20,18 +21,22 @@ class Marker {
   _onRemove () {
     let markerPane = this.map.getPanes().markerPane;
     if (markerPane) {
-      if(markerPane.contains(this.html)){
-        markerPane.removeChild(this.html);
-      }
       // this.Vue.$destroy();
+      markerPane.removeChild(this.html);
       // this.map = null;
       // this.html = null;
     }
   }
   _update () {
-    let pos = this.map.lngLatToLayerPoint(this.lnglat);
-    this.html.style.top =  pos.y  + "px";
-    this.html.style.left = pos.x  + "px";
+    var pos = this.map.lngLatToLayerPoint(this.lnglat);
+    this.html.style.top =  (pos.y- 36)  + "px";
+    this.html.style.left = (pos.x - 11) + "px";
+  }
+  _clickMarker(){
+    return {
+      keyData:this.keyData,
+      lnglat:this.lnglat
+    }
   }
   extendMethods(){
     return {}

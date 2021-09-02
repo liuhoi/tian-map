@@ -13,23 +13,22 @@ export default {
     visible: {
       type:Boolean
     },
-    data: {
+    keyData: {
       type:Object
     }
   },
   watch:{
     visible(val){
       if(val){
-        this.$tmapComponent.show(this.position)  
+        this.$tmapComponent.show(this.position,this.keyData)  
       }else{
         this.$tmapComponent.hide()
       }
      
     },
-    data:{
+    keyData:{
       deep:true,
       handler(val){
-        console.log(val)
         if(!this.visible){
           return
         }
@@ -73,8 +72,8 @@ export default {
     },
     initMarker(){
       return new ProxyInfoWindow( this.$scopedSlots.default,{
-        position:this.position,
-        keyData:this.data,
+        position:[],
+        keyData:{},
         type:'infoWindow'
       })
     },

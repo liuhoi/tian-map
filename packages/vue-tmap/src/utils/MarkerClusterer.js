@@ -34,6 +34,7 @@ export class MarkerClusterer {
     this._markers = [];
     this._clusters = [];
     this._gridSize = 60;
+    this._maxZoom = 15;
     this._map.addEventListener('zoomend', (e) => {
       this._redraw();
     })
@@ -58,6 +59,10 @@ export class MarkerClusterer {
 
   getGridSize(){
     return this._gridSize;
+  }
+
+  getMaxZoom(){
+    return this._maxZoom;
   }
 
   _pushMarkerTo(marker) {
@@ -163,6 +168,14 @@ export class Cluster {
     return this._gridBounds.contains(marker.getPosition());
   }
   updateClusterMarker(){
+    if (this._map.getZoom() > this._markerClusterer.getMaxZoom()) {
+      this._clusterMarker && this._map.removeOverLay(this._clusterMarker);
+      for (var i = 0, marker; marker = this._markers[i]; i++) {
+          this._map.addOverLay(marker);
+      }
+      return;
+    }
+
     if (this._markers.length < this._minClusterSize) {
       this._clusterMarker.hide();
       return;

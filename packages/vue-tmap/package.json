@@ -1,6 +1,6 @@
 {
   "name": "@liuhoi/vue-tmap",
-  "version": "1.0.105",
+  "version": "1.0.109",
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",

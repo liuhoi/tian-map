@@ -64,7 +64,7 @@ export default {
       this.removePolyline();
       let {$tmap,$mapApi,points} = this;
       let lnglats = points.map(point => {
-        return new LngLat(...point)
+        return point instanceof T.dq ? point: new LngLat(...point)
       })
       this.$tmapComponent = new $mapApi.Polyline(lnglats,this.mergeConfig);
       $tmap.addOverLay(this.$tmapComponent);

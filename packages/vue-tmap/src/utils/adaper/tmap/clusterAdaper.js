@@ -29,7 +29,7 @@ class Cluster extends Marker{
     }
   }
   setLngLat(lnglat){
-    this.lnglat = lnglat
+    this.lnglat = lnglat instanceof T.dq ? lnglat: new LngLat(...lnglat)
     this.update()
   }
   setText(text){

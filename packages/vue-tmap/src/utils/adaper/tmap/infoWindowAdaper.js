@@ -28,23 +28,28 @@ class InfoWindow extends Marker{
     return {
       hide:this.hide,
       show:this.show,
-      setLngLat:this.setLngLat
+      setLngLat:this.setLngLat,
+      setData:this.setData
     }
   }
   hide(){
     this.onRemove()
   }
-  show(lnglat){
+  show(lnglat,data){
     let infoWindowPane = this.map.getPanes().infoWindowPane;
     if (infoWindowPane) {
       infoWindowPane.appendChild(this.html);
-      
+      this.setData(data || {})
       this.setLngLat(lnglat)
     }
   }
   setLngLat(lnglat){
-    this.lnglat = new LngLat(...lnglat)
+    this.lnglat = lnglat instanceof T.dq ? lnglat: new LngLat(...lnglat)
+    this.Vue.position = lnglat
     this.update()
+  }
+  setData(data){
+    this.Vue.keyData = data
   }
 }
 

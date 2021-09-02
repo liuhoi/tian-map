@@ -16,8 +16,8 @@ export default {
     markers: {
       deep: true,
       async handler(val) {
-        
-        // this.addMarkers(val)
+        await this.$tmapPromiseLazy;
+        this.addMarkers(val);
       },
     },
   },
@@ -38,7 +38,7 @@ export default {
     this.$tmapPromiseLazy.then(({ map, mapApi }) => {
       this.$tmap = map;
       this.$mapApi = mapApi;
-      this.addMarkers(this.markers);
+      
     });
   },
 
