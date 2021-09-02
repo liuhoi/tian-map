@@ -11,11 +11,11 @@
    ES_DIR,
    SRC_DIR,
    LIB_DIR,
-   STYPE_DEPS_JSON_FILE,
+   STYLE_DEPS_JSON_FILE,
  } = require( '../common/constant');
  
  function getDeps(component){
-   const styleDepsJson = require(STYPE_DEPS_JSON_FILE);
+   const styleDepsJson = require(STYLE_DEPS_JSON_FILE);
  
    if (styleDepsJson.map[component]) {
      const deps = styleDepsJson.map[component].slice(0);
@@ -76,7 +76,7 @@ function genComponentStyle(
    options = { cache: true }
  ) {
    if (!options.cache) {
-     delete require.cache[STYPE_DEPS_JSON_FILE];
+     delete require.cache[STYLE_DEPS_JSON_FILE];
    }
  
    const components = getComponents();

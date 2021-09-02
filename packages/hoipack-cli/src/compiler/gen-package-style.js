@@ -2,10 +2,10 @@ const { join } = require( 'path');
 const { existsSync } = require( 'fs-extra');
 const { smartOutputFile, normalizePath } = require( '../common');
 const { CSS_LANG, getCssBaseFile } = require( '../common/css');
-const { SRC_DIR, STYPE_DEPS_JSON_FILE } = require( '../common/constant');
+const { SRC_DIR, STYLE_DEPS_JSON_FILE } = require( '../common/constant');
 
  function genPackageStyle(options) {
-  const styleDepsJson = require(STYPE_DEPS_JSON_FILE);
+  const styleDepsJson = require(STYLE_DEPS_JSON_FILE);
   const ext = '.' + CSS_LANG;
 
   let content = '';

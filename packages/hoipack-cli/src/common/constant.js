@@ -58,8 +58,8 @@ exports.SCRIPT_EXTS = ['.js', '.jsx', '.vue', '.ts', '.tsx'];
 exports.STYLE_EXTS = ['.css', '.less', '.scss'];
 
 
-const STYPE_DEPS_JSON_FILE = join(exports.DIST_DIR, 'style-deps.json');
-exports.STYPE_DEPS_JSON_FILE = STYPE_DEPS_JSON_FILE
+const STYLE_DEPS_JSON_FILE = join(exports.DIST_DIR, 'style-deps.json');
+exports.STYLE_DEPS_JSON_FILE = STYLE_DEPS_JSON_FILE
 
 const PACKAGE_JSON_FILE = join(exports.ROOT, 'package.json');
 
