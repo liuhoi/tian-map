@@ -41,7 +41,7 @@ const fillExt = (filePath) => {
 function getPathByImport(code, filePath) {
   const divider = code.includes('"') ? '"' : "'";
   const relativePath = code.split(divider)[1];
-
+  
   if (relativePath.includes('.')) {
     return fillExt(join(filePath, '..', relativePath));
   }
