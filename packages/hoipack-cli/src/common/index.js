@@ -49,6 +49,10 @@ const setNodeEnv = (value)=>{
   process.env.NODE_ENV = value;
 }
 
+const setCompilerType = (value)=>{
+  process.env.COMPILER_TYPE = value;
+}
+
 const setBuildTarget = (value)=>{
   process.env.BUILD_TARGET = value;
 }
@@ -107,7 +111,24 @@ const getWebpackConfig = function (defaultConfig) {
   return defaultConfig;
 }
 
+const COMPILER_TYPE_MAP = ['vue2','vue3','react']
+
+const getCompilerType = (type,version)=>{
+  let compilerType = type + version;
+  if(compilerType.includes('react')){
+    compilerType = 'react'
+  }
+  if(!COMPILER_TYPE_MAP.includes(compilerType)){
+    compilerType = 'vue2'
+  }
+  return compilerType
+}
+
+exports.COMPILER_TYPE_MAP = COMPILER_TYPE_MAP;
+
 exports.ENTRY_EXTS = ENTRY_EXTS;
+
+exports.getCompilerType = getCompilerType
 
 exports.smartOutputFile = (filePath,content)=>{
   if(existsSync(filePath)){
@@ -156,3 +177,5 @@ exports.isScript = isScript
 exports.replaceExt = replaceExt
 
 exports.getWebpackConfig = getWebpackConfig
+
+exports.setCompilerType = setCompilerType

@@ -73,3 +73,4 @@ exports.PACKAGE_JSON_FILE = PACKAGE_JSON_FILE
 exports.getPackageJson = getPackageJson
 
 exports.ROOT_WEBPACK_CONFIG_FILE = join(exports.ROOT, 'webpack.config.js');
+

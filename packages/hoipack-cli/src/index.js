@@ -10,6 +10,8 @@ program.version(version)
 
 program
   .command('dev')
+  .argument('[type]', '编译成语言', 'vue')
+  .option('-v, --version <version>', '编译版本', 2 )
   .description('Run webpack dev server')
   .action(dev);
 program

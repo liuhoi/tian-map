@@ -16,7 +16,7 @@ const CSS_LOADERS = [
 ];
 
 const modules = {
-  entry:resolve('site/main.js'),
+  entry:resolve('site/vue2/main.js'),
   output:{
     path:path.resolve(ROOT,'dist'),
     filename:'[name][hash].js'
@@ -81,7 +81,7 @@ const modules = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'vue-tmap',
-      template:resolve('site/index.html')
+      template:resolve('site/vue2/index.html')
     }),
     new CleanWebpackPlugin(),
     new VueLoaderPlugin()

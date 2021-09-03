@@ -17,10 +17,10 @@ const {
 const resolve = (url) => path.resolve(CLIROOT, url)
 
 const CSS_LOADERS = [
-  require.resolve('style-loader'),
-  require.resolve('css-loader'),
+  'style-loader',
+  { loader: 'css-loader', options: { importLoaders: 1 } },
   {
-    loader: require.resolve('postcss-loader'),
+    loader: 'postcss-loader',
     options: {
       postcssOptions: require(POSTCSS_CONFIG_FILE),
     },
@@ -28,13 +28,39 @@ const CSS_LOADERS = [
 ];
 
 const VUE_LOADER = {
-  loader: require.resolve('vue-loader'),
+  loader: 'vue-loader',
   options: {
     compilerOptions: {
       preserveWhitespace: false,
     },
   },
 };
+
+const BABEL_LOADER = {
+  loader:'babel-loader',
+  options:{
+    presets:[
+      [
+        '@babel/preset-env'
+      ],
+      [
+        '@vue/babel-preset-jsx'
+      ]
+    ],
+    plugins:[
+      [
+        '@babel/plugin-transform-runtime',
+        {
+          corejs:3
+        }
+      ],
+      [
+        '@babel/plugin-syntax-dynamic-import'
+      ],
+    ]
+  }
+};
+
 
 const plugins = [
   new webpack.DefinePlugin({
@@ -84,8 +110,8 @@ const baseConfig = {
       },
       {
         test: /\.(js|ts|jsx|tsx)$/,
-        exclude: /node_modules/,
-        use: [require.resolve('babel-loader')],
+        exclude:/node_modules|bower_components/,
+        use:[BABEL_LOADER]
       },
       {
         test: /\.css$/,
@@ -95,20 +121,12 @@ const baseConfig = {
       {
         test: /\.less$/,
         sideEffects: true,
-        use: [...CSS_LOADERS, require.resolve('less-loader')],
+        use: [...CSS_LOADERS, 'less-loader'],
       },
       {
-        test: /\.scss$/,
+        test: /\.s[ac]ss$/i,
         sideEffects: true,
-        use: [
-          ...CSS_LOADERS,
-          {
-            loader: require.resolve('sass-loader'),
-            options: {
-              implementation: sass,
-            },
-          },
-        ],
+        use: [...CSS_LOADERS,'sass-loader'],
       },
       // {
       //   test: /\.md$/,

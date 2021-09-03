@@ -34,7 +34,7 @@ export class MarkerClusterer {
     this._markers = [];
     this._clusters = [];
     this._gridSize = 60;
-    this._maxZoom = 15;
+    this._maxZoom = 17;
     this._map.addEventListener('zoomend', (e) => {
       this._redraw();
     })

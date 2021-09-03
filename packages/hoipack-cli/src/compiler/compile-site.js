@@ -12,7 +12,6 @@ const getProdConfig = require('../config/webpack.prod')
 
 const log = (content)=>console.log(chalk.hex(GREEN)(content))
 
-
 const logServerInfo = function(port){
   const local = `http://localhost:${port}/`
   const network = `http://${ip()}:${port}/`
@@ -59,6 +58,7 @@ const build = async function(){
 }
 
 exports.compileSite = async function(production = false){
+  console.log(process.env.COMPILER_TYPE)
   if(production){
     await build();
   }else{
