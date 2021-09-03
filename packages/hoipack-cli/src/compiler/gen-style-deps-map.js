@@ -3,7 +3,7 @@ const { CSS_LANG }  = require( '../common/css');
 const { existsSync }  = require( 'fs-extra');
 const { getDeps, clearDepsCache, fillExt }  = require( './get-deps');
 const { getComponents, smartOutputFile }  = require( '../common');
-const { SRC_DIR, STYPE_DEPS_JSON_FILE }  = require( '../common/constant');
+const { SRC_DIR, STYLE_DEPS_JSON_FILE }  = require( '../common/constant');
 
 function matchPath(path, component) {
   const p = relative(SRC_DIR, path);
@@ -109,7 +109,7 @@ const genStyleDepsMap = async function () {
     });
 
     smartOutputFile(
-      STYPE_DEPS_JSON_FILE,
+      STYLE_DEPS_JSON_FILE,
       JSON.stringify({ map, sequence }, null, 2)
     );
 
