@@ -19,10 +19,13 @@ class Marker {
   }
 
   _onRemove () {
+    
     let markerPane = this.map.getPanes().markerPane;
     if (markerPane) {
+      if(markerPane.contains(this.html)){
+        markerPane.removeChild(this.html);
+      }
       // this.Vue.$destroy();
-      markerPane.removeChild(this.html);
       // this.map = null;
       // this.html = null;
     }
