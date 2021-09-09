@@ -1,13 +1,13 @@
 import './Tmap.scss';
 import React,{useState,useEffect,useRef,useImperativeHandle} from 'react';
 
-import {MapContext} from '../../context'
+import {MapContext} from '../utils/context'
 
-import CONSTANTS from '../../config/constant'
-import loadTmapApi from '../../libs/initializer'
-import promiseLazyFactory from '../../libs/promise-lazy'
+import CONSTANTS from '../utils/config/constant'
+import loadTmapApi from '../utils/initializer'
+import promiseLazyFactory from '../utils/promise-lazy'
 
-import config from '@/config/map';
+import config from '../utils/config/map';
 
 const promiseLazyCreator  = promiseLazyFactory(loadTmapApi)
 const tmapApiPromiseLazy = promiseLazyCreator({

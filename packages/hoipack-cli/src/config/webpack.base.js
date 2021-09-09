@@ -1,9 +1,10 @@
-const sass = require( 'sass');
 const webpack  = require( 'webpack');
-const { VueLoaderPlugin }  = require( 'vue-loader');
 const path  = require( 'path');
 const { consola }  = require( '../common/logger');
 const { existsSync }  = require( 'fs');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const {
   CWD,
@@ -27,37 +28,28 @@ const CSS_LOADERS = [
   },
 ];
 
-const VUE_LOADER = {
-  loader: 'vue-loader',
-  options: {
-    compilerOptions: {
-      preserveWhitespace: false,
-    },
-  },
-};
-
 const BABEL_LOADER = {
   loader:'babel-loader',
   options:{
     presets:[
-      [
-        '@babel/preset-env'
-      ],
-      [
-        '@vue/babel-preset-jsx'
-      ]
+      // [
+      //   '@babel/preset-env'
+      // ],
+      // [
+      //   '@vue/babel-preset-jsx'
+      // ],
     ],
-    plugins:[
-      [
-        '@babel/plugin-transform-runtime',
-        {
-          corejs:3
-        }
-      ],
-      [
-        '@babel/plugin-syntax-dynamic-import'
-      ],
-    ]
+    // plugins:[
+    //   [
+    //     '@babel/plugin-transform-runtime',
+    //     {
+    //       corejs:3
+    //     }
+    //   ],
+    //   [
+    //     '@babel/plugin-syntax-dynamic-import'
+    //   ],
+    // ]
   }
 };
 
@@ -67,47 +59,50 @@ const plugins = [
     __VUE_OPTIONS_API__: 'true',
     __VUE_PROD_DEVTOOLS__: 'false',
   }),
-  new VueLoaderPlugin(),
+  new HtmlWebpackPlugin({
+    title: 'vue-tmap',
+    template:resolve('site/index.html')
+  }),
+  new CleanWebpackPlugin(),
 ];
 
-const tsconfigPath = path.join(CWD, 'tsconfig.json');
-if (existsSync(tsconfigPath)) {
-  const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-  plugins.push(
-    new ForkTsCheckerPlugin({
-      formatter: 'codeframe',
-      vue: { enabled: true },
-      logger: {
-        issues: {
-          // skip info message
-          log() {},
-          warn(message) {
-            consola.warn(message);
-          },
-          error(message) {
-            consola.error(message);
-          },
-        },
-      },
-    })
-  );
-}
+// const tsconfigPath = path.join(CWD, 'tsconfig.json');
+// if (existsSync(tsconfigPath)) {
+//   const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
+//   plugins.push(
+//     new ForkTsCheckerPlugin({
+//       formatter: 'codeframe',
+//       vue: { enabled: true },
+//       logger: {
+//         issues: {
+//           // skip info message
+//           log() {},
+//           warn(message) {
+//             consola.warn(message);
+//           },
+//           error(message) {
+//             consola.error(message);
+//           },
+//         },
+//       },
+//     })
+//   );
+// }
 
 const baseConfig = {
   mode: 'development',
   resolve: {
     extensions: [...SCRIPT_EXTS, ...STYLE_EXTS],
     alias:{
-      '@':path.resolve(ROOT,'src'),
-      '@docs':resolve('docs'),
+      '@':path.resolve(ROOT,'src')
     },
   },
   module: {
     rules: [
-      {
-        test: /\.vue$/,
-        use: [VUE_LOADER],
-      },
+      // {
+      //   test: /\.vue$/,
+      //   use: [VUE_LOADER],
+      // },
       {
         test: /\.(js|ts|jsx|tsx)$/,
         exclude:/node_modules|bower_components/,

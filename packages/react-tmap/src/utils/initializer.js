@@ -1,4 +1,4 @@
-import loadScript from '@/tools/loadScript'
+import loadScript from './loadScript'
 export default (() => {
   let isApiSetUp = false
 

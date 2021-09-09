@@ -1,5 +1,6 @@
-import Tmap from './src/Tmap/Tmap'
-import TmapMarker from './src/TmapMarker/TmapMarker'
+import Tmap from './Tmap/Tmap'
+import TmapMarker from './TmapMarker/TmapMarker'
+import TmapPolygon from './TmapPolygon/TmapPolygon'
 // import tmapInfoWindow from './src/tmap-info-window'
 // import tmapPolygon from './src/tmap-polygon'
 // import tmapPolyline from './src/tmap-polyline'
@@ -9,6 +10,7 @@ import TmapMarker from './src/TmapMarker/TmapMarker'
 export {
   Tmap,
   TmapMarker,
+  TmapPolygon
   // tmapInfoWindow,
   // tmapPolygon,
   // tmapPolyline,

@@ -3,50 +3,81 @@ module.exports = function (api, options = {}) {
     api.cache.never();
   }
 
-  const { BABEL_MODULE, NODE_ENV } = process.env;
+  const { BABEL_MODULE, NODE_ENV,COMPILER_TYPE} = process.env;
   const isTest = NODE_ENV === 'test';
   const useESModules = BABEL_MODULE !== 'commonjs' && !isTest;
 
-  return {
-    presets: [
+  let commonPresets = [
+    [
+      require.resolve('@babel/preset-env'),
+      {
+        modules: useESModules ? false : 'commonjs',
+        loose: options.loose,
+      },
+    ],
+    [
+      '@babel/preset-typescript',
+    ],
+     // require('../compiler/babel-preset-vue-ts'),
+  ]
+
+  let compilerPresets = {
+    react: [
       [
-        require.resolve('@babel/preset-env'),
-        {
-          modules: useESModules ? false : 'commonjs',
-          loose: options.loose,
-        },
+        '@babel/preset-react',
       ],
+    ],
+    vue2 : [
       [
         '@vue/babel-preset-jsx',
         {
           functional: false,
         },
       ],
-      // require.resolve('@babel/preset-typescript'),
-      // require('../compiler/babel-preset-vue-ts'),
     ],
-    plugins: [
+    vue3 : [
+      
+    ]
+  }
+
+  let commonPlugins = [
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'tmap',
+        libraryDirectory: useESModules ? 'es' : 'lib',
+        style: true,
+      },
+      'tmap',
+    ],
+    [
+      '@babel/plugin-transform-runtime',
+      {
+        corejs:3
+      }
+    ],
+    ['@babel/plugin-syntax-dynamic-import']
+  ]
+
+  let compilerPlugins = {
+    react:[],
+    vue2:[],
+    vue3: [
       [
-        require.resolve('babel-plugin-import'),
+        '@vue/babel-plugin-jsx',
         {
-          libraryName: 'tmap',
-          libraryDirectory: useESModules ? 'es' : 'lib',
-          style: true,
+          enableObjectSlots: options.enableObjectSlots,
         },
-        'tmap',
       ],
-      // [
-      //   require.resolve('@vue/babel-plugin-jsx'),
-      //   {
-      //     enableObjectSlots: options.enableObjectSlots,
-      //   },
-      // ],
-      [
-        require.resolve('@babel/plugin-transform-runtime'),
-        {
-          corejs:3
-        }
-      ]
-    ],
+    ]
+  }
+
+
+  let presets = [...commonPresets,...compilerPresets[COMPILER_TYPE]]
+  let plugins = [...commonPlugins,...compilerPlugins[COMPILER_TYPE]]
+
+  return {
+    presets,
+    plugins,
   };
 };

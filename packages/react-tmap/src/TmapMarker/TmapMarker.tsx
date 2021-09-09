@@ -1,8 +1,8 @@
 import './TmapMarker.scss';
 import React, { useState, useEffect,useContext ,useRef} from 'react';
-import markerOverlayCreator from '../../overlay/mapOverlay'
+import {ProxyMarker} from '../utils/overlay/mapOverlay'
 
-import {MapContext} from '../../context'
+import {MapContext} from '../utils/context'
 interface marker{
   marker:any,
   onClick?:any,
@@ -10,16 +10,24 @@ interface marker{
 }
 
 const TmapMarker: React.FC<marker> = ({marker,children,onClick}) => {
-  let {$mapApi,$tmap} = useContext(MapContext)
+  let {$tmap} = useContext(MapContext)
   let ref = useRef(null);
+
+  const initMarker = (html:any,marker:any) => {
+    return new (ProxyMarker as any)( html,{
+      position:marker.position,
+      keyData:marker.data
+    })
+  }
+
   useEffect(()=>{
     let $tmapComponent:any = null;
     if($tmap){
-      let overlayCreator = markerOverlayCreator($mapApi)
-      $tmapComponent = new overlayCreator( ref.current,{
-        lngLat:marker.position,
+      $tmapComponent = initMarker( ref.current,{
+        position:marker.position,
         data:marker.data
       });
+      console.log(children,123123);
       ($tmap as any).addOverLay($tmapComponent);
     }
     return ()=>{

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Emitter from '../utils/mixins/emitter'
+
 import CONSTANTS from '../utils/config/constant'
 import loadTmapApi from '../utils/initializer'
 import promiseLazyFactory from '../utils/promise-lazy'
@@ -22,7 +22,6 @@ const tmapApiPromiseLazy = promiseLazyCreator({
 
 export default {
   name: "tmap",
-  mixins:[Emitter],
   props: {
     center:{
       type:Array,
@@ -62,8 +61,6 @@ export default {
     tmapApiPromiseLazy().then(mapApi => {
       this.$mapApi = mapApi;
       this.initMap(mapApi)
-      // this.broadcast('tmapMarker',CONSTANTS.TMAP_READY_EVENT,[this.$tmap,mapApi])
-      // this.broadcast('tmapInfoWindow',CONSTANTS.TMAP_READY_EVENT,[this.$tmap,mapApi])
     })
   },
   methods:{

@@ -7,9 +7,9 @@
   "style": "lib/main-sfc.css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "hoipack-cli dev",
-    "build": "hoipack-cli build",
-    "build:site": "hoipack-cli build-site",
+    "dev": "hoipack-cli dev vue -v 2",
+    "build": "hoipack-cli build vue -v 2",
+    "build:site": "hoipack-cli build-site vue -v 2",
     "release": "hoipack-cli release --tag next"
   },
   "files": [

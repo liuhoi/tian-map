@@ -20,6 +20,8 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.4",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.15.0",
     "@babel/runtime-corejs3": "^7.15.4",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-plugin-jsx": "^1.0.6",
@@ -51,9 +53,7 @@
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^3.2.1",
-    "vue": "^2.6.14",
     "vue-loader": "^15.9.8",
-    "vue-router": "^3.4.9",
     "webpack": "^5.51.2",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.1.0",
@@ -62,7 +62,9 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "vue": "^2.6.14",
-    "vue-template-compiler": "^2.6.14"
+    "vue":"^2.6.14",
+    "vue-template-compiler": "^2.6.14",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }

@@ -90,7 +90,6 @@ const modules = {
     extensions:['.js', '.vue', '.json'],
     alias:{
       '@':path.resolve(ROOT,'src'),
-      '@docs':resolve('docs'),
     },
     symlinks: true
   }
