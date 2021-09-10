@@ -27,7 +27,6 @@ const TmapMarker: React.FC<marker> = ({marker,children,onClick}) => {
         position:marker.position,
         data:marker.data
       });
-      console.log(children,123123);
       ($tmap as any).addOverLay($tmapComponent);
     }
     return ()=>{

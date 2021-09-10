@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef,useReducer } from 'react';
-import {Tmap,TmapMarker,TmapPolygon} from '@/index';
+import {Tmap,TmapMarker,TmapPolygon,TmapCluster} from '@/index';
 
 interface interfaceT{
   [propName: string]: any;
@@ -27,12 +27,14 @@ const TianMap: React.FC<interfaceT> = () => {
         })
       }
       setMonitorMarker(markers)
-      console.log(markers)
     },2000)
   },[])
 
   let color1 = {
     color:'red'
+  }
+  let color2 = {
+    color:'yellow'
   }
 
   return (
@@ -41,12 +43,18 @@ const TianMap: React.FC<interfaceT> = () => {
         {
           monitorMarker.map((marker: any) => {
             return (
-              <TmapMarker marker={marker} key={JSON.stringify(marker)}>
+              <TmapMarker marker={marker}>
                 <div style={color1}>asdfas</div>
               </TmapMarker>
             )
           })
         }
+        {/* <TmapCluster markers={monitorMarker}>
+          <div slot="marker" style={color1}>asdfas</div>
+          <div style={color2}>
+            点1212
+          </div>
+        </TmapCluster> */}
         {/* {
           <TmapPolygon points={ARPolygon}></TmapPolygon>
         } */}

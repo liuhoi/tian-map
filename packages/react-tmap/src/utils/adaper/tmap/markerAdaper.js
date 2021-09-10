@@ -5,13 +5,14 @@ class Marker {
     
   }
   _initialize (html,options) {
-    // this.Vue = vmFactory(html,options)
+    console.log(this.html,'_initialize')
     this.html = html;
     let lnglat = options.position;
     this.lnglat = lnglat instanceof T.dq ? lnglat: new LngLat(...lnglat);
   }
   _onAdd (map) {
     this.map = map;
+    console.log(this.html,'_onAdd')
     this.html.style.position = 'absolute'
     map.getPanes().markerPane.appendChild(this.html);
     this.update();
@@ -24,9 +25,6 @@ class Marker {
       if(markerPane.contains(this.html)){
         markerPane.removeChild(this.html);
       }
-      // this.Vue.$destroy();
-      // this.map = null;
-      // this.html = null;
     }
   }
   _update () {
