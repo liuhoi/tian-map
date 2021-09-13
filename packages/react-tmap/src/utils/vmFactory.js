@@ -1,13 +1,16 @@
 import React,{createElement} from 'react';
 import {createPortal,render} from 'react-dom';
 
-export const vmFactory = (scopedSlots,options) => {
-  let divEl = document.createElement('div')
-  document.body.append(divEl)
-  divEl.className = 'middle'
-  return createPortal(
-    <div className="tmap-marker">
-      {scopedSlots}
-    </div>
-    ,divEl)
+export const vmFactory = (vm,options = {}) => {
+  let wrapper = vm.getElement();
+  wrapper.classList.add('tmap-marker');
+  if(options.markerNum >= 2){
+    wrapper.classList.add('tmap-cluster')
+  }
+  return render(
+    (<>
+      {vm.content}
+      {options.markerNum}
+    </>)
+    ,wrapper)
 }

@@ -71,7 +71,6 @@
     },
     methods: {
       clickMarker(marker){
-        console.log(marker)
         this.infoWindow.position = marker.position
         this.infoWindow.data = marker.keyData
         this.infoWindow.visible = true

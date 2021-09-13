@@ -33,15 +33,7 @@ const TmapPolygon: React.FC<marker> = ({points,children}) => {
     }
   },[$tmap,points])
 
-  return (
-    <div className="hide-el">
-      <div className="tmap-polygon" ref={domRef}>
-        {children}
-      </div>
-    </div>
-  
-    
-  );
+  return (null);
 };
 
 export default TmapPolygon;

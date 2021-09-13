@@ -1,8 +1,9 @@
 import './TmapMarker.scss';
 import React, { useState, useEffect,useContext ,useRef} from 'react';
 import {ProxyMarker} from '../utils/overlay/mapOverlay'
-
 import {MapContext} from '../utils/context'
+import {vmFactory} from '../utils/vmFactory'
+
 interface marker{
   marker:any,
   onClick?:any,
@@ -11,23 +12,23 @@ interface marker{
 
 const TmapMarker: React.FC<marker> = ({marker,children,onClick}) => {
   let {$tmap} = useContext(MapContext)
-  let ref = useRef(null);
-
-  const initMarker = (html:any,marker:any) => {
-    return new (ProxyMarker as any)( html,{
-      position:marker.position,
-      keyData:marker.data
-    })
+  const createMarker = (data:any) => {
+    let marker = new (ProxyMarker as any)(children,{
+      position:data.position,
+      keyData:data.data
+    });
+    ($tmap as any).addOverLay(marker);
+    return marker
   }
 
   useEffect(()=>{
     let $tmapComponent:any = null;
     if($tmap){
-      $tmapComponent = initMarker( ref.current,{
+      $tmapComponent = createMarker({
         position:marker.position,
         data:marker.data
       });
-      ($tmap as any).addOverLay($tmapComponent);
+      
     }
     return ()=>{
       if( $tmapComponent && $tmap){
@@ -37,14 +38,7 @@ const TmapMarker: React.FC<marker> = ({marker,children,onClick}) => {
     }
   },[$tmap])
 
-  return (
-    <div className="hide-el">
-      <div className="tmap-marker" ref={ref} onClick={onClick}>
-        {children}
-      </div>
-    </div>
-    
-  );
+  return null
 };
 
 export default TmapMarker;

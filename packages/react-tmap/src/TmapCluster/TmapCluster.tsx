@@ -1,107 +1,80 @@
 import './TmapCluster.scss';
 import React, { useState, useEffect,useContext ,useRef} from 'react';
-import {createPortal} from 'react-dom';
 import {MapContext} from '../utils/context'
 
 import { MarkerClusterer } from "../utils/MarkerClusterer";
 import { ProxyCluster } from "../utils/overlay/mapOverlay";
 
+import {vmFactory} from '../utils/vmFactory'
+
 interface marker{
   markers:any,
   [propName: string]: any;
 }
-const TmapCluster: React.FC<marker> = ({markers = [],children}) => {
+const TmapCluster: React.FC<marker> = ({markers = [],onClick,children}) => {
+
   let {$mapApi,$tmap} = useContext(MapContext)
-
-  let markerEl = document.createElement('div')
-  markerEl.classList.add('tmap-marker')
-
-  let clusterEl = document.createElement('div')
-  clusterEl.classList.add('tmap-cluster')
-  
   useEffect(()=>{
     if($tmap){
-      let markerPane = ($tmap as any).getPanes().markerPane;
-      markerPane.appendChild(markerEl)
-      markerPane.appendChild(clusterEl)
       addMarkers(markers);
-    }
-    return ()=>{
-      if($tmap){
-        let markerPane = ($tmap as any).getPanes().markerPane;
-        markerPane.removeChild(markerEl)
-        markerPane.removeChild(clusterEl)
-      }
     }
   },[$tmap,markers])
   
 
 
-  const  initMarker = (vm:any) => {
-    console.log(markerEl,'markerEl')
-    return new (ProxyCluster as any)(
-      markerEl,
+  const  createMarker = (vm:any) => {
+    let {markerSlot} = renderChild(children)
+    let marker = new (ProxyCluster as any)(
+      markerSlot,
       {
         position:vm.position,
         keyData:vm.data
       }
     );
+    marker.addEvent('click',onClick)
+    return marker
   }
 
-  const initClusterMarker = () =>  {
-    console.log(clusterEl,'clusterEl')
-    return new (ProxyCluster as any)(
-      clusterEl,
+  const createClusterMarker = () =>  {
+    let {clusterSlot} = renderChild(children)
+    let marker =  new (ProxyCluster as any)(
+      clusterSlot,
     {
       position:[104.06, 30.67],
       data:{}
     });
+    return marker
   }
 
   const addMarkers = (arr:any) => {
     let markers = arr.map((data:any) => {
-      return initMarker(data);
+      return createMarker(data);
     });
     new MarkerClusterer($tmap, {
       markers,
-      clusterMarker: initClusterMarker,
+      clusterMarker: createClusterMarker,
     });
   }
 
   const renderChild = (childrens:any):any => {
 
-    let marker:any = null;
-    let cluster:any = null;
+    let markerSlot:any = null;
+    let clusterSlot:any = null;
 
     childrens.forEach((child:any) => {
       if(child?.props?.slot === 'marker'){
-        marker = marker;
+        markerSlot = child;
       }else{
-        cluster = child
+        clusterSlot = child
       }
     })
-    let ss = createPortal(
-      marker,
-      markerEl
-    )
-    let sd = createPortal(
-      cluster,
-      clusterEl
-    )
-    console.log(sd,ss,'ss')
-
-    return [
-      ss,
-      sd
-    ]
-    
+    return {
+      markerSlot,
+      clusterSlot
+    }
   }
 
-  return (
-   <>
-    {renderChild(children)}  
-   </>
-  )   
+  return null
 };
 
 export default TmapCluster;

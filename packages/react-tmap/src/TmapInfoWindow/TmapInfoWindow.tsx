@@ -1,39 +1,44 @@
 import './TmapInfoWindow.scss';
 import React, { useState, useEffect,useContext ,useRef} from 'react';
-import infoWindowOverlayCreator from '../utils/overlay/infoWindowOverlay'
+import {ProxyInfoWindow} from '../utils/overlay/mapOverlay'
 
 import {MapContext} from '../utils/context'
 interface marker{
   [propName: string]: any;
 }
 
-const TmapInfoWindow: React.FC<marker> = ({position,visible,data,children}) => {
+const TmapInfoWindow: React.FC<marker> = ({position,visible,infoData,children}) => {
   let {$mapApi,$tmap} = useContext(MapContext)
-  let ref = useRef(null);
+  let [infoWindow,setInfoWindow] = useState<any>(null)
   useEffect(()=>{
-    let $tmapComponent:any = null;
+    
     if($tmap){
-      let overlayCreator = infoWindowOverlayCreator($mapApi)
-      $tmapComponent = new overlayCreator( ref.current,{
-        lngLat:position,
-        data:data
+      let infoWindow = new (ProxyInfoWindow as any)(children,{
+        position:position,
+        data:infoData,
+        panesType:2
       });
-      ($tmap as any).addOverLay($tmapComponent);
+      setInfoWindow(infoWindow);
+      ($tmap as any).addOverLay(infoWindow);
+      visible ? (infoWindow.show(),infoWindow.setLngLat(position)) :infoWindow.hide()
     }
     return ()=>{
-      if( $tmapComponent && $tmap){
-        $tmapComponent && ($tmap as any).removeLayer($tmapComponent)
-        $tmapComponent = null;
+      if( infoWindow && $tmap){
+        infoWindow && ($tmap as any).removeLayer(infoWindow)
+        infoWindow = null;
       }
     }
   },[$tmap])
 
+  useEffect(()=>{
+    if($tmap && infoWindow){
+      infoWindow.setContent(children)
+      visible && infoWindow.setLngLat(position)
+      visible ? infoWindow.show() :infoWindow.hide()
+    }
+  },[children])
   return (
-    <div className="hide-el">
-      <div className="tmap-info-window" ref={ref}>
-        {children}
-      </div>
-    </div>
+    null
   );
 };
 
