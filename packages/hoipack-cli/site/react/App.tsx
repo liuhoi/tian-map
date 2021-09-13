@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef,useReducer } from 'react';
-import {Tmap,TmapMarker,TmapPolygon,TmapCluster,TmapInfoWindow} from '@/index';
+import {Tmap,TmapMarker,TmapPolygon,TmapCluster,TmapInfoWindow,TmapPolyline,TmapCardinalArrow} from '@/index';
 
 interface interfaceT{
   [propName: string]: any;
@@ -102,6 +102,12 @@ const TianMap: React.FC<interfaceT> = () => {
         }
         {
           <TmapPolygon points={monitorMarker.map(v =>v.position)}></TmapPolygon>
+        }
+        {
+          <TmapPolyline points={monitorMarker.map(v =>v.position)}/>
+        }
+        {
+          <TmapCardinalArrow points={monitorMarker.map(v =>v.position)}/>
         }
       </Tmap>
     </div>
