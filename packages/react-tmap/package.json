@@ -1,6 +1,6 @@
 {
   "name": "@liuhoi/react-tmap",
-  "version": "1.0.100",
+  "version": "1.0.102",
   "description": "",
   "main": "lib/index.js",
   "module": "es/index.js",

@@ -21,6 +21,8 @@ program
 
 program
   .command('build')
+  .argument('[type]', '编译成语言', 'vue')
+  .option('-v, --version <version>', '编译版本', 2 )
   .description('Compile packages')
   .action(build);
 program

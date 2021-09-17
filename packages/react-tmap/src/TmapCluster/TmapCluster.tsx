@@ -11,7 +11,7 @@ interface marker{
   markers:any,
   [propName: string]: any;
 }
-const TmapCluster: React.FC<marker> = ({markers = [],onClick,children}) => {
+const TmapCluster: React.FC<marker> = ({markers = [],markerRender,clusterRender,events,children}) => {
 
   let {$mapApi,$tmap} = useContext(MapContext)
   useEffect(()=>{
@@ -23,22 +23,20 @@ const TmapCluster: React.FC<marker> = ({markers = [],onClick,children}) => {
 
 
   const  createMarker = (vm:any) => {
-    let {markerSlot} = renderChild(children)
     let marker = new (ProxyCluster as any)(
-      markerSlot,
+      markerRender,
       {
         position:vm.position,
         keyData:vm.data
-      }
+      },
+      events
     );
-    marker.addEvent('click',onClick)
     return marker
   }
 
   const createClusterMarker = () =>  {
-    let {clusterSlot} = renderChild(children)
     let marker =  new (ProxyCluster as any)(
-      clusterSlot,
+      clusterRender,
     {
       position:[104.06, 30.67],
       data:{}
@@ -54,24 +52,6 @@ const TmapCluster: React.FC<marker> = ({markers = [],onClick,children}) => {
       markers,
       clusterMarker: createClusterMarker,
     });
-  }
-
-  const renderChild = (childrens:any):any => {
-
-    let markerSlot:any = null;
-    let clusterSlot:any = null;
-
-    childrens.forEach((child:any) => {
-      if(child?.props?.slot === 'marker'){
-        markerSlot = child;
-      }else{
-        clusterSlot = child
-      }
-    })
-    return {
-      markerSlot,
-      clusterSlot
-    }
   }
 
   return null

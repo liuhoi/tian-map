@@ -11,9 +11,11 @@ const {
   isDemoDir,
   isTestDir,
   isAsset,
-  isSfc,
+  isVueSfc,
   isStyle,
-  isScript
+  isScript,
+  setCompilerType,
+  getCompilerType
 } = require('../common')
 const {installDependencies} = require('../common/manager')
 const {consola,ora} = require('../common/logger')
@@ -33,7 +35,7 @@ const {genComponentStyle} = require('../compiler/gen-component-style')
 const {compilePackage} =  require('../compiler/compile-package')
 
 const compileFile = async (filePath) => {
-  if (isSfc(filePath)) {
+  if (isVueSfc(filePath)) {
     return compileSfc(filePath);
   }
 
@@ -177,7 +179,8 @@ const runBuildTasks = async ()=>{
 
 
 
-module.exports = async function(){
+module.exports = async function(type,options){
+  setCompilerType(getCompilerType(type,options.version))
   setNodeEnv('production');
   try {
     await clean();

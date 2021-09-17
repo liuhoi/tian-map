@@ -7,19 +7,22 @@ interface marker{
   [propName: string]: any;
 }
 
-const TmapInfoWindow: React.FC<marker> = ({position,visible,infoData,children}) => {
+const TmapInfoWindow: React.FC<marker> = ({position,visible,infoData,render,children}) => {
   let {$mapApi,$tmap} = useContext(MapContext)
   let [infoWindow,setInfoWindow] = useState<any>(null)
   useEffect(()=>{
     
     if($tmap){
-      let infoWindow = new (ProxyInfoWindow as any)(children,{
+      let infoWindow = new (ProxyInfoWindow as any)(render,{
         position:position,
-        data:infoData,
+        keyData:infoData,
         panesType:2
       });
+
       setInfoWindow(infoWindow);
+
       ($tmap as any).addOverLay(infoWindow);
+
       visible ? (infoWindow.show(),infoWindow.setLngLat(position)) :infoWindow.hide()
     }
     return ()=>{
@@ -32,11 +35,11 @@ const TmapInfoWindow: React.FC<marker> = ({position,visible,infoData,children}) 
 
   useEffect(()=>{
     if($tmap && infoWindow){
-      infoWindow.setContent(children)
       visible && infoWindow.setLngLat(position)
       visible ? infoWindow.show() :infoWindow.hide()
+      infoWindow.setContent();
     }
-  },[children])
+  },[render])
   return (
     null
   );

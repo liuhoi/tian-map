@@ -2,7 +2,6 @@ import {Marker} from './markerAdaper'
 class Cluster extends Marker{
   constructor(){
     super()
-    
   }
   extendMethods(){
     return {
@@ -18,8 +17,8 @@ class Cluster extends Marker{
 
 
 let ProxyCluster = new Proxy(Cluster,{
-  construct(target,[content,options]){
-    return new target().init(content,options)
+  construct(target,[content,options,events]){
+    return new target().init(content,options,events)
   }
 })
 

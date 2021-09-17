@@ -8,6 +8,23 @@ const getPackageConfig = function (isMinify) {
   const { name } = getHoiConfig();
 
   setBuildTarget('package');
+  let {COMPILER_TYPE} = process.env;
+
+  let externals = /vue/.test(COMPILER_TYPE) ? {
+    vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      amd: 'vue',
+    }
+  } : {
+    react: {
+      root: 'React',
+      commonjs: 'React',
+      commonjs2: 'React',
+      amd: 'React',
+    }
+  };
 
   return getWebpackConfig(
     merge(baseConfig, {
@@ -26,12 +43,7 @@ const getPackageConfig = function (isMinify) {
         globalObject: "typeof self !== 'undefined' ? self : this",
       },
       externals: {
-        vue: {
-          root: 'Vue',
-          commonjs: 'vue',
-          commonjs2: 'vue',
-          amd: 'vue',
-        },
+        ...externals
       },
       performance: false,
       optimization: {

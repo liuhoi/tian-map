@@ -8,16 +8,15 @@ class InfoWindow extends Marker{
       setContent:this.setContent
     }
   }
-  setContent(content){
-    this.content = content
+  setContent(){
     this.renderComponent()
   }
 }
 
 
 let ProxyInfoWindow = new Proxy(InfoWindow,{
-  construct(target,[html,options]){
-    return new target().init(html,options)
+  construct(target,[html,options,events]){
+    return new target().init(html,options,events)
   }
 })
 

@@ -3,9 +3,6 @@ const path  = require( 'path');
 const { consola }  = require( '../common/logger');
 const { existsSync }  = require( 'fs');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-
 const {
   CWD,
   STYLE_EXTS,
@@ -59,11 +56,7 @@ const plugins = [
     __VUE_OPTIONS_API__: 'true',
     __VUE_PROD_DEVTOOLS__: 'false',
   }),
-  new HtmlWebpackPlugin({
-    title: 'vue-tmap',
-    template:resolve('site/index.html')
-  }),
-  new CleanWebpackPlugin(),
+  
 ];
 
 // const tsconfigPath = path.join(CWD, 'tsconfig.json');

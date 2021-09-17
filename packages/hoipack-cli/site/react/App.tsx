@@ -70,36 +70,57 @@ const TianMap: React.FC<interfaceT> = () => {
     setVisible(false)
   }
 
+  const markerRender = ({marker})=>{
+    let {lnglat} = marker;
+      return (
+        <div  style={color1}>
+          <div>{lnglat.lat}</div>
+          <div>{lnglat.lng}</div>
+        </div>
+      )
+          
+  }
+
+  const clusterRender = ({extData})=>{
+    return (
+      <div style={color2} >
+        点{extData.markerNum}
+      </div>
+    )
+  }
+
+  const infoWindowRender = ({marker})=>{
+    let {lnglat} = marker
+    return (
+      <div style={color2} onClick={()=>{closeOpen()}}>
+        <div>{marker.keyData.name}</div>
+        <div>{lnglat.lat}</div>
+        <div>{lnglat.lng}</div>
+        <div>5454</div>
+      </div>
+    )
+  }
+
+  const events = {
+    click:(marker)=>{
+      clickMarker(marker)
+    }
+  }
+
   return (
     <div className="tian-map">
       <Tmap ref={mapRef} center={mapCenter} zoom={zoom}>
         {/* {
           monitorMarker.map((marker: any,index) => {
             return (
-              <TmapMarker marker={marker} key={index} >
-                <div style={color1} onClick={()=>{clickMarker(marker)}}>asdfas</div>
-              
-              </TmapMarker>
+              <TmapMarker marker={marker} key={index} events={events} render={({marker})=>markerRender({marker})} />
             )
           })
         } */}
-        <TmapCluster markers={monitorMarker} onClick={clickMarker}>
-          <div slot="marker" style={color1}>
-            <div>asdfas</div>
-            <div>asdfas</div>
-          </div>
-          <div style={color2} >
-            点
-          </div>
-        </TmapCluster>
-        {
-          <TmapInfoWindow position={position} infoData={data} visible={visible}>
-            <div style={color2} onClick={()=>{closeOpen()}}>
-              <div>{data.name}</div>
-              <div>5454</div>
-            </div>
-          </TmapInfoWindow>
-        }
+        <TmapCluster markers={monitorMarker} events={events} markerRender={({marker}) => markerRender({marker})} clusterRender={({extData}) => clusterRender({extData})} />
+        
+        <TmapInfoWindow position={position} infoData={data} visible={visible} render={({marker})=> infoWindowRender({marker}) } />
+
         {
           <TmapPolygon points={monitorMarker.map(v =>v.position)}></TmapPolygon>
         }

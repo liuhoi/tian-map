@@ -14,7 +14,7 @@ const ENTRY_EXTS = ['js', 'ts', 'tsx', 'jsx', 'vue'];
 const camelizeRE = /-(\w)/g;
 const pascalizeRE = /(\w)(\w*)/g;
 const EXT_REGEXP = /\.\w+$/;
-const SFC_REGEXP = /\.(vue)$/;
+const VUE_SFC_REGEXP = /\.(vue)$/;
 const DEMO_REGEXP = new RegExp('\\' + sep + 'demo$');
 const TEST_REGEXP = new RegExp('\\' + sep + 'test$');
 const ASSET_REGEXP = /\.(png|jpe?g|gif|webp|ico|jfif|svg|woff2?|ttf)$/i;
@@ -73,8 +73,12 @@ const isAsset = (path) =>  {
   return ASSET_REGEXP.test(path);
 }
 
-const isSfc = (path) =>   {
-  return SFC_REGEXP.test(path);
+const isVueSfc = (path) =>   {
+  return VUE_SFC_REGEXP.test(path);
+}
+
+const isReactSfc = (path) =>   {
+  return SCRIPT_REGEXP.test(path);
 }
 
 const isStyle = (path)  =>  {
@@ -171,7 +175,8 @@ exports.isDemoDir = isDemoDir
 exports.isTestDir = isTestDir
 
 exports.isAsset = isAsset
-exports.isSfc = isSfc
+exports.isVueSfc = isVueSfc
+exports.isReactSfc = isReactSfc
 exports.isStyle = isStyle
 exports.isScript = isScript
 exports.replaceExt = replaceExt

@@ -2,21 +2,21 @@ import './TmapMarker.scss';
 import React, { useState, useEffect,useContext ,useRef} from 'react';
 import {ProxyMarker} from '../utils/overlay/mapOverlay'
 import {MapContext} from '../utils/context'
-import {vmFactory} from '../utils/vmFactory'
 
 interface marker{
   marker:any,
-  onClick?:any,
+  events?:any,
+  render():any,
   [propName: string]: any;
 }
 
-const TmapMarker: React.FC<marker> = ({marker,children,onClick}) => {
+const TmapMarker: React.FC<marker> = ({marker,render,events,children},ref) => {
   let {$tmap} = useContext(MapContext)
   const createMarker = (data:any) => {
-    let marker = new (ProxyMarker as any)(children,{
+    let marker = new (ProxyMarker as any)(render,{
       position:data.position,
-      keyData:data.data
-    });
+      keyData:data.data,
+    },events);
     ($tmap as any).addOverLay(marker);
     return marker
   }
