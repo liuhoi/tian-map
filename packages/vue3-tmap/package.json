@@ -1,0 +1,44 @@
+{
+  "name": "@liuhoi/vue3-tmap",
+  "version": "1.0.109",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "style": "lib/main-sfc.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "hoipack-cli dev vue -v 3",
+    "build": "hoipack-cli build vue -v 3",
+    "build:site": "hoipack-cli build-site vue -v 3",
+    "release": "hoipack-cli release --tag next"
+  },
+  "files": [
+    "es",
+    "lib",
+    "babel.config.js",
+    "hoi.config.js"
+  ],
+  "npm": {
+    "tag": "next"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:liuhoi/vue-tmap.git"
+  },
+  "keywords": [
+    "vue",
+    "tian-map"
+  ],
+  "author": "liuhui",
+  "license": "MIT",
+  "unpkg": "lib/tmap.min.js",
+  "jsdelivr": "lib/tmap.min.js",
+  "dependencies": {
+    "@liuhoi/hoipack-cli": "^1.0.3",
+    "vue": "^3.2.26"
+  }
+}
