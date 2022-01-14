@@ -59,29 +59,6 @@ const plugins = [
   
 ];
 
-// const tsconfigPath = path.join(CWD, 'tsconfig.json');
-// if (existsSync(tsconfigPath)) {
-//   const ForkTsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
-//   plugins.push(
-//     new ForkTsCheckerPlugin({
-//       formatter: 'codeframe',
-//       vue: { enabled: true },
-//       logger: {
-//         issues: {
-//           // skip info message
-//           log() {},
-//           warn(message) {
-//             consola.warn(message);
-//           },
-//           error(message) {
-//             consola.error(message);
-//           },
-//         },
-//       },
-//     })
-//   );
-// }
-
 const baseConfig = {
   mode: 'development',
   resolve: {

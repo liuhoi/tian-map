@@ -38,7 +38,7 @@
   "unpkg": "lib/tmap.min.js",
   "jsdelivr": "lib/tmap.min.js",
   "dependencies": {
-    "@liuhoi/hoipack-cli": "^1.0.3",
+    "@liuhoi/hoipack-cli": "workspace:^1.0.3",
     "vue": "^2.6.14",
     "vue-template-compiler": "^2.6.14"
   }
